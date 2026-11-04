@@ -26,7 +26,7 @@ A headless runner (Node, or the same JS with rendering off) plays many seeds aga
 seed,strategy,grid,steps,score,outcome
 ```
 
-`outcome` is `won`, `died` or `ran_out` (the CSV ran out, or the step cap hit).
+`outcome` is `won`, `died` or `ran_out` (the CSV ran out, or the game hit the step cap).
 
 ## The analysis
 

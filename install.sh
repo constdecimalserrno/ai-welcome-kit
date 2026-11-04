@@ -3,7 +3,7 @@
 # Safe to run twice - every step checks what's already there, and anything it
 # replaces gets backed up to ~/.claude/backups/ai-welcome-kit-<timestamp>/ first.
 #
-# Usage: ./install.sh [--code-dir DIR] [--force-skills]
+# Usage: bash install.sh [--code-dir DIR] [--force-skills]
 #   --force-skills   replace a skill you already have under ~/.claude/skills, after a
 #                    backup. Without it, a skill that's a git repo or differs from ours is kept.
 #   --code-dir DIR   where you keep your code, for system-tui's disk-by-project panel.

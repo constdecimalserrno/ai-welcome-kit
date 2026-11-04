@@ -13,7 +13,7 @@ You need a Claude login. Paste this repo's link, `https://github.com/constdecima
 3. Ask which path you want: *Rules of thumb*, *Install the kit*, *Do the demo (Snake)*, *What's in the kit* or *References*.
 4. Install the kit, asking before it changes `~/.claude`. On *Do the demo*, you then build a small Snake project with it.
 
-Claude names the slide for each step, like "Install 3: Pick the code folder", and the deck links straight to it (`tutorial.html#install-3`).
+Claude names the slide for each step, like "Install 3 of 6: Pick the code folder", and the deck links straight to it (`tutorial.html#install-3`).
 
 I start Claude Code at medium effort: `claude --model opus --effort medium`. The full steps Claude follows are in [`INSTALL.md`](INSTALL.md).
 
