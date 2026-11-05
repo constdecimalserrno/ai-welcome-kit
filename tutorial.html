@@ -176,7 +176,7 @@ code, kbd, pre, .term, .chip, .tag, .where, .eyebrow, .copy, th, .step dt, .p-se
   <h1>Welcome. This is how I set up Claude.</h1>
   <p>Claude Code is Claude working on your own computer. This kit is the setup I use, and these slides walk you through it. They're follow-along only: you do everything by talking to Claude.</p>
   <ul class="plain">
-    <li><strong>You need:</strong> a Mac, Claude Code and a paid Claude plan. The demo also needs Node.</li>
+    <li><strong>You need:</strong> a Mac or Windows, Claude Code and a paid Claude plan. The demo also needs Node. Windows also needs Git and Python, and goes without the dashboard and statusline.</li>
     <li><strong>Usage:</strong> install uses very little. The demo uses a lot: about 0.8M tokens in my test.</li>
   </ul>
   <p class="lede">Pick a path, then tell Claude its name.</p>
@@ -202,14 +202,14 @@ code, kbd, pre, .term, .chip, .tag, .where, .eyebrow, .copy, th, .step dt, .p-se
 <section class="slide" data-id="install-2" data-path="install">
   <h2>Check prerequisites</h2>
   <dl class="step">
-    <dt>Claude does</dt><dd>Checks for macOS, <code>claude</code>, <code>python3</code> and <code>git</code>, and optionally <code>node</code> and <code>cargo</code> (Rust). Read only.</dd>
+    <dt>Claude does</dt><dd>Checks your system, <code>claude</code>, Python and <code>git</code>, and optionally <code>node</code> and <code>cargo</code> (Rust). Read only.</dd>
     <dt class="you">You type</dt><dd>Nothing.</dd>
     <dt>You see</dt><dd>Something like:<pre class="term">Darwin
 ~/.local/bin/claude
 python3 ok
 git version 2.50.1
 v24.1.0</pre></dd>
-    <dt>Worked if</dt><dd>Every line prints. If <code>python3</code> or <code>git</code> fails, run <code>xcode-select --install</code> and start over. No <code>cargo</code> is fine: you get everything but the dashboard. No <code>node</code> means no <code>ponytail</code> and no demo, so get it from <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a> first.</dd>
+    <dt>Worked if</dt><dd>Every line prints. The first line is <code>MINGW64</code> or similar on Windows. If Python or <code>git</code> fails, run <code>xcode-select --install</code> on a Mac, or get them from <a href="https://www.python.org">python.org</a> and <a href="https://git-scm.com">git-scm.com</a> on Windows, then start over. No <code>cargo</code> is fine: you get everything but the dashboard. No <code>node</code> means no <code>ponytail</code> and no demo, so get it from <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a> first.</dd>
   </dl>
 </section>
 
@@ -289,14 +289,14 @@ claude --model opus --effort medium</pre><span>Doing the demo? Just <code>/exit<
   <h2>Make the workspace</h2>
   <div class="chips"><span class="chip">terminal</span><span class="chip">starts at effort: high</span></div>
   <dl class="step">
-    <dt>Claude does</dt><dd>Nothing. Type these in your terminal - it's your restart after install.</dd>
+    <dt>Claude does</dt><dd>Nothing. Type these in your terminal (Git Bash on Windows) - it's your restart after install.</dd>
     <dt class="you">You type</dt><dd><span>Run <code>git config user.name</code>. If it prints nothing, set your name first:</span><pre class="term copyable">git config --global user.name "Your Name"
 git config --global user.email you@example.com</pre><span>Then, swapping <code>~/src</code> for your own code folder if you have one:</span><pre class="term copyable">mkdir -p ~/src/snake/context &amp;&amp; cd ~/src/snake
 cp ~/src/ai-welcome-kit/examples/snake/BRIEF.md .
 git init -q &amp;&amp; git commit -q --allow-empty -m init
 claude -n snake --model opus --effort high</pre></dd>
     <dt>You see</dt><dd>Your next session, named <code>snake</code>, in its own folder.</dd>
-    <dt>Worked if</dt><dd>The statusline says <code>Opus·high</code>. <code>context/</code> stays empty for now - it's for this project's reference material.</dd>
+    <dt>Worked if</dt><dd>The statusline says <code>Opus·high</code> (no statusline on Windows). <code>context/</code> stays empty for now - it's for this project's reference material.</dd>
   </dl>
 </section>
 
@@ -326,7 +326,7 @@ claude -n snake --model opus --effort high</pre></dd>
   <h2>Set up the skills</h2>
   <div class="chips"><span class="chip">setup-matt-pocock-skills</span><span class="chip">effort: high</span></div>
   <dl class="step">
-    <dt>Claude does</dt><dd>Sets up an issue tracker (local Markdown files), triage labels and a doc layout.</dd>
+    <dt>Claude does</dt><dd>Sets up an issue tracker (local Markdown files, so no GitHub needed), triage labels and a doc layout.</dd>
     <dt class="you">You type</dt><dd><pre class="term copyable">/setup-matt-pocock-skills Use local markdown for the issue tracker, and your defaults for everything else.</pre></dd>
     <dt>You see</dt><dd>Maybe a draft to confirm. Say <kbd>yes</kbd>: none of this matters much for a small game. You're seeing it once so you know it's there.</dd>
     <dt>Worked if</dt><dd>The tracker, labels and docs are in the repo, and its block is in the <code>CLAUDE.md</code> you just wrote. That's why <code>CLAUDE.md</code> comes first.</dd>
@@ -462,12 +462,12 @@ Start a living doc for the tickets /to-tickets wrote. It's a local project: no s
 </section>
 
 <section class="slide" data-id="demo-17" data-path="demo">
-  <h2>Back it up on GitHub</h2>
+  <h2>Already on GitHub? Back it up</h2>
   <div class="chips"><span class="chip">optional</span><span class="chip">gh</span><span class="chip">effort: medium</span></div>
-  <p class="note">Once tickets are on local <code>main</code>.</p>
+  <p class="note">Skip this if you don't use GitHub. Your tickets and code stay on your computer, and nothing later needs it.</p>
   <dl class="step">
     <dt>Claude does</dt><dd>Makes a private repo and pushes <code>main</code>. Tickets still land on local <code>main</code>.</dd>
-    <dt class="you">You type</dt><dd><span>Once, in your terminal:</span><pre class="term copyable">brew install gh &amp;&amp; gh auth login</pre><span>Then, to Claude:</span><pre class="term copyable">Run gh repo create snake --private --source . --push</pre></dd>
+    <dt class="you">You type</dt><dd><span>If <code>gh</code> is already logged in:</span><pre class="term copyable">Run gh repo create snake --private --source . --push</pre></dd>
     <dt>You see</dt><dd>A link to your new repo.</dd>
     <dt>Worked if</dt><dd>Your commits are on GitHub. <code>git push</code> backs up later ones.</dd>
   </dl>
