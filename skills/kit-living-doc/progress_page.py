@@ -57,7 +57,7 @@ for p in sorted((effort / "issues").glob("*.md"), key=lambda p: int(p.name.split
         num=num, title=re.sub(r"^\d+:\s*", "", t.splitlines()[0].lstrip("# ").strip()),
         status=STATUS.get(field(t, "Status"), field(t, "Status")) or "needs-triage", size=field(t, "Size"),
         blocked=re.findall(r"\d{2,}", field(t, "Blocked by") or section(t, "Blocked by")),
-        est=float((field(t, "Estimate") or "1").rstrip("d") or 0), excl=field(t, "Not in estimate"),
+        est=float((field(t, "Estimate") or "1").rstrip("d") or 0), estimated=bool(field(t, "Estimate")), excl=field(t, "Not in estimate"),
         brief=brief,
         steps=[(c, s) for c, s in steps], human=section(t, "Human steps"),
         needs_human=field(t, "Needs human"), plan=field(t, "Plan"), workspace=field(t, "Workspace"),
@@ -105,6 +105,7 @@ for t in order:
 base_total = sum(t["est"] for t in tickets.values())
 base_left = sum(t["est"] * (1 - frac(t)) for t in tickets.values())
 eta_lo, eta_hi = add_workdays(today, cum_lo), add_workdays(today, cum_hi)
+HAS_ETA = all(t["estimated"] for t in tickets.values() if t["status"] not in DONE)  # no invented dates
 pct = round(100 * (1 - base_left / base_total)) if base_total else 0
 done_n = sum(t["status"] in DONE for t in tickets.values())
 frontier = next((t for t in order if t["status"] not in DONE and unblocked(t)), None)
@@ -122,7 +123,7 @@ def review_chip(t):
     due, hard = r
     cls = "late" if today > hard else ("warn" if today >= due else "")
     return f'<span class="chip review {cls}">review due {fmt(due)}, hard stop {fmt(hard)}</span>'
-def due_txt(t): return "Done" if not t["due"] else f'target {fmt(t["due"])}'
+def due_txt(t): return "Done" if not t["due"] else f'target {fmt(t["due"])}' if HAS_ETA else "No estimate"
 
 def card(t):
     nxt = " is-next" if frontier and frontier["num"] == t["num"] else ""
@@ -145,6 +146,7 @@ TITLE = re.search(r"^# (.+)$", mapmd, re.M)
 TITLE = TITLE.group(1).strip() if TITLE else effort.resolve().name
 EYEBROW = re.search(r"^Eyebrow:\s*(.+)$", mapmd, re.M)
 EYEBROW = EYEBROW.group(1).strip() if EYEBROW else TITLE
+EYEBROW = " · ".join(dict.fromkeys(x.strip() for x in EYEBROW.split("·")))  # "snake · snake" reads as a bug
 OWNER = re.search(r"^Owner:\s*(.+)$", mapmd, re.M)
 OWNER = OWNER.group(1).strip() if OWNER else "the page owner"
 plan_html = ('<section class="plan"><h2>How we tackle it</h2><ol>' + "".join(f"<li><h4>{h}</h4><p>{md_inline(x)}</p></li>" for h, x in PLAN) + "</ol></section>") if PLAN else ""
@@ -262,7 +264,15 @@ done_panel = (f'''<section class="panel" id="done" role="tabpanel" aria-labelled
 next_html = (f'<a class="next" href="#t{frontier["num"]}"><span>Next up</span><b>{frontier["num"]} · {e(frontier["title"])}</b></a>'
              if frontier else '<div class="next"><span>Next up</span><b>Nothing unblocked</b></div>')
 
-page = f'''<title>{e(TITLE)}</title>
+eta_html = (f'''<div class="date">{fmt(eta_hi)}, {eta_hi.year}</div>
+      <p>Earliest likely is {fmt(eta_lo)} at 1.5x padding. Tickets ship one at a time, top wave first. The date moves as steps get ticked off, and slips if nothing moves.</p>'''
+            if HAS_ETA else '''<div class="date">No date yet</div>
+      <p>A date shows once every open ticket has an <code>Estimate:</code> line.</p>''')
+
+page = f'''<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{e(TITLE)}</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -445,8 +455,7 @@ footer {{ color:var(--muted); font-size:13px }}
 <div class="wrap">
   <section class="eta" aria-label="Estimated completion">
     <div><span class="lbl">Estimated completion · padded 2x</span>
-      <div class="date">{fmt(eta_hi)}, {eta_hi.year}</div>
-      <p>Earliest likely is {fmt(eta_lo)} at 1.5x padding. Tickets ship one at a time, top wave first. The date moves as steps get ticked off, and slips if nothing moves.</p></div>
+      {eta_html}</div>
     <dl>
       <div><dt class="lbl">Tickets done</dt><dd>{done_n} / {len(tickets)}</dd></div>
       <div><dt class="lbl">Work done</dt><dd>{pct}%</dd></div>
@@ -607,4 +616,4 @@ footer {{ color:var(--muted); font-size:13px }}
 </script>
 '''
 out.write_text(page)
-print(f"wrote {out}: {len(tickets)} tickets, base {base_total:g}d, ETA {eta_lo} (1.5x) .. {eta_hi} (2x), next {frontier['num'] if frontier else '-'}")
+print(f"wrote {out}: {len(tickets)} tickets, base {base_total:g}d, ETA {f'{eta_lo} (1.5x) .. {eta_hi} (2x)' if HAS_ETA else 'none (no estimates)'}, next {frontier['num'] if frontier else '-'}")

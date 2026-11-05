@@ -1,5 +1,5 @@
 ---
-name: living-doc
+name: kit-living-doc
 description: Living doc: the progress page for a codebase's tickets (a rollout, sprint or wayfinder map), rendered from ticket files in the repo and published as a Claude artifact. Use to start one, add a ticket, sync it after any ticket change, or respin it when its artifact link is unreachable.
 ---
 
@@ -14,9 +14,11 @@ Artifacts belong to a Claude account, and accounts change, so the artifact is di
 
 **Template:** `progress_page.py` renders every living doc from the ticket files, so change the files or the renderer and leave the HTML to the render.
 
+**Tool names differ by client.** `ArtifactData`, `ArtifactComments` and the Artifact tool's `file_path`, `url`, `capabilities` and `read` are one client's names. Use whatever your tools call the same thing. Can't read the page's data? Skip that read and carry on. Can't publish at all? Go to Hold.
+
 ## Start a rollout
 
-1. **Pick the effort.** Default these, don't ask: the `<effort>` slug is `<feature>` when tickets already sit in `.scratch/<feature>/issues/` (`/to-tickets` writes them there), else the project folder's name; the title is the effort in plain words; the eyebrow, the small line over the title, is `<project folder> · <effort>`; the owner is `git config user.name`. Say them in one line, so the user can change any. The runbook settings (service, deploy window, freeze, shared code) are only for a project that deploys. A plain or local project has none: drop the "Ticket runbook" section from `templates/CLAUDE-sections.md` and don't ask. Keep `map.md`'s steps tagged `(remote only)` or `(if it deploys)`: the runbook marks them n/a on each ticket. Done when every placeholder you kept has a value, except the artifact link, which step 4 fills.
+1. **Pick the effort.** Default these, don't ask: the `<effort>` slug is `<feature>` when tickets already sit in `.scratch/<feature>/issues/` (`/to-tickets` writes them there), else the project folder's name; the title is the effort in plain words; the eyebrow, the small line over the title, is `<project folder> · <effort>` (just one of them when they match); the owner is `git config user.name`. Say them in one line, so the user can change any. The runbook settings (service, deploy window, freeze, shared code) are only for a project that deploys. A plain or local project has none: drop the "Ticket runbook" section from `templates/CLAUDE-sections.md` and don't ask. Keep `map.md`'s steps tagged `(remote only)` or `(if it deploys)`: the runbook marks them n/a on each ticket. Done when every placeholder you kept has a value, except the artifact link, which step 4 fills.
 2. **Scaffold.**
    - Create `.scratch/<effort>/issues/` and `.scratch/<effort>/work/`.
    - Write `.scratch/<effort>/map.md` from `templates/map.md`, with the title as its first line.
@@ -68,7 +70,7 @@ Done when the ticket sits in a wave and the page shows it.
 
 The renderer reads these exact shapes. It also reads `/to-tickets` files as they are: `# NN: Title`, `**Status:**`, `**Blocked by:**`, `**What to build:**` as the Goal, and their `- [ ]` criteria as the steps, until the runbook adds a `## Rollout`. `done` counts as `resolved`. Without `map.md`, it renders every ticket in one wave, and it skips any `<placeholder>` line left in `map.md`.
 
-- **Header lines:** `Status:` (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `claimed`, `resolved`, or `wontfix`, which keeps the file but drops it from the page), `Size:`, `Blocked by:`, `Estimate:` (working days, before padding) and `Not in estimate:`. Optional: `Needs human:` (flags the ticket in red), `Plan:`, `Workspace:`, `PR:`, `PR opened: YYYY-MM-DD` (starts the review clock) and `Hold: <why>`. The top of the page lists every PR whose agent reviews are done (step 8) and that waits on sign-off (step 9), as one block to copy to reviewers. `Hold:` keeps a PR out of that block.
+- **Header lines:** `Status:` (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `claimed`, `resolved`, or `wontfix`, which keeps the file but drops it from the page), `Size:`, `Blocked by:`, `Estimate:` (working days, before padding; the page shows no dates until every open ticket has one) and `Not in estimate:`. Optional: `Needs human:` (flags the ticket in red), `Plan:`, `Workspace:`, `PR:`, `PR opened: YYYY-MM-DD` (starts the review clock) and `Hold: <why>`. The top of the page lists every PR whose agent reviews are done (step 8) and that waits on sign-off (step 9), as one block to copy to reviewers. `Hold:` keeps a PR out of that block.
 - **`## Brief`:** every ticket carries one, the summary the page leads with (cards show the Goal). Write it for a reader skimming with no context: plain words, no jargon, no ids, one line per bullet. Update it whenever the ticket's state changes; detail lives in the rest of the ticket.
 
   ```markdown
@@ -78,7 +80,7 @@ The renderer reads these exact shapes. It also reads `/to-tickets` files as they
   - **Open:** <the question(s) still unanswered; drop once closed>
   - **Answer:** <the decision or outcome in one line; add on close>
   ```
-- **`## Rollout`:** the `ticket-runbook` steps, labelled by `map.md`'s `## Rollout steps`. Tick one with `- [x]`; mark one that can't apply `- [-] … (n/a: why)`. It drives the progress bar and the ETA.
+- **`## Rollout`:** the `kit-ticket-runbook` steps, labelled by `map.md`'s `## Rollout steps`. Tick one with `- [x]`; mark one that can't apply `- [-] … (n/a: why)`. It drives the progress bar and the ETA.
 - **`## Log`:** `- YYYY-MM-DD: what happened`, one line per step.
 - **`## Open questions`:** `- [qN] question`. Keep the ids stable: answers key on them.
 - **`## Human steps`:** shown as the ticket's human step.
@@ -86,4 +88,4 @@ The renderer reads these exact shapes. It also reads `/to-tickets` files as they
 
 ## Improving the template
 
-When a project's copy of a script gains a feature worth keeping, copy it back into this folder (`~/.claude/skills/living-doc/`); it's the single source for new projects. Keep project names out of the scripts: page copy lives in `map.md` (title, `Eyebrow:`, `Owner:`, `## Approach`, `## Runbook`, `## Rollout steps`).
+When a project's copy of a script gains a feature worth keeping, copy it back into this folder (`~/.claude/skills/kit-living-doc/`); it's the single source for new projects. Keep project names out of the scripts: page copy lives in `map.md` (title, `Eyebrow:`, `Owner:`, `## Approach`, `## Runbook`, `## Rollout steps`).

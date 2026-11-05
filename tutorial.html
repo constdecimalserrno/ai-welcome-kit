@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>AI Welcome Kit</title>
@@ -173,203 +174,26 @@ code, kbd, pre, .term, .chip, .tag, .where, .eyebrow, .copy, th, .step dt, .p-se
 <section class="slide" data-id="start">
   <p class="eyebrow">AI Welcome Kit</p>
   <h1>Welcome. This is how I set up Claude.</h1>
+  <p>Claude Code is Claude working on your own computer. This kit is the setup I use, and these slides walk you through it. They're follow-along only: you do everything by talking to Claude.</p>
+  <ul class="plain">
+    <li><strong>You need:</strong> a Mac, Claude Code and a paid Claude plan. The demo also needs Node.</li>
+    <li><strong>Usage:</strong> install uses very little. The demo uses a lot: about 0.8M tokens in my test.</li>
+  </ul>
   <p class="lede">Pick a path, then tell Claude its name.</p>
   <nav class="paths" aria-label="Paths">
-    <a class="path" href="#rules-1" data-path="rules"><span class="p-name">Rules of thumb</span><span class="p-meta"><span class="tag">Anywhere</span></span><span class="p-seen"></span></a>
-    <a class="path" href="#install-1" data-path="install"><span class="p-name">Install the kit</span><span class="p-meta"><span class="tag">Claude Code</span></span><span class="p-seen"></span></a>
-    <a class="path" href="#demo-1" data-path="demo"><span class="p-name">Do the demo (Snake)</span><span class="p-meta">An afternoon · <span class="tag">Claude Code, after install</span></span><span class="p-seen"></span></a>
-    <a class="path" href="#kit-1" data-path="kit"><span class="p-name">What's in the kit</span><span class="p-meta"><span class="tag">Anywhere</span></span><span class="p-seen"></span></a>
-    <a class="path" href="#refs-1" data-path="refs"><span class="p-name">References</span><span class="p-meta"><span class="tag">Anywhere</span></span><span class="p-seen"></span></a>
+    <a class="path" href="#install-1" data-path="install"><span class="p-name">Install the kit</span><span class="p-meta">Skills, plugins and a dashboard in <code>~/.claude</code>. A few minutes</span><span class="p-seen"></span></a>
+    <a class="path" href="#demo-1" data-path="demo"><span class="p-name">Do the demo (Snake)</span><span class="p-meta">Install, then build a small game with the kit. An afternoon</span><span class="p-seen"></span></a>
+    <a class="path" href="https://constdecimalserrno.github.io/ai-welcome-kit/guide.html"><span class="p-name">Just read the guide</span><span class="p-meta">My rules of thumb and what's in the kit, on one page. Works anywhere, no install</span><span class="p-seen"></span></a>
   </nav>
   <p class="nav-extra" id="resume" hidden><a class="btn" href="#start">Pick up where you left off</a></p>
 </section>
 
-<!-- ======================= RULES OF THUMB ======================= -->
-<section class="slide" data-id="rules-1" data-path="rules">
-  <p class="num" aria-hidden="true">1</p>
-  <h2>Almost always run in auto mode.</h2>
-  <p>The faster you trust Claude, the faster you get your work done.</p>
-  <p>Press <kbd>Shift+Tab</kbd> to cycle permission modes until it says auto, or start with <code>claude --permission-mode auto</code>.</p>
-</section>
-
-<section class="slide" data-id="rules-2" data-path="rules">
-  <p class="num" aria-hidden="true">2</p>
-  <h2>Use Opus 5.5.</h2>
-  <p>Low or medium effort for actual code implementation. High or xhigh for planning, wayfinding and grilling.</p>
-  <p><code>/model</code> and <code>/effort</code> change it mid-session.</p>
-</section>
-
-<section class="slide" data-id="rules-3" data-path="rules">
-  <p class="num" aria-hidden="true">3</p>
-  <h2>Effort doesn't mean good or bad output.</h2>
-  <p>It only means how much Claude thinks and checks its own work.</p>
-  <p>If you planned and ticketed well, code needs low or medium. When you're planning and don't quite know yet, higher effort is OK.</p>
-</section>
-
-<section class="slide" data-id="rules-4" data-path="rules">
-  <p class="num" aria-hidden="true">4</p>
-  <h2>Use artifacts to understand what's going on.</h2>
-  <p>Ask for a page instead of reading a wall of terminal text. "Publish an artifact comparing X and Y" gets you a page you can skim, keep and share.</p>
-</section>
-
-<section class="slide" data-id="rules-5" data-path="rules">
-  <p class="num" aria-hidden="true">5</p>
-  <h2>Play with multimedia.</h2>
-  <p>Claude isn't just text. It reads PDFs and images, and can transcribe what's in them. It works with your files, and draws things: diagrams, SVGs, charts, whole pages.</p>
-  <p>If it can't do something natively, like generating an image or transcribing audio, it can find or write the right tool for it. So feel free to play.</p>
-</section>
-
-<section class="slide" data-id="rules-6" data-path="rules">
-  <p class="num" aria-hidden="true">6</p>
-  <h2>Make Claude write in your voice.</h2>
-  <p>I train my agent on my blog. Write a voice guide from your own writing and point your global <code>CLAUDE.md</code> at it.</p>
-</section>
-
-<section class="slide" data-id="rules-7" data-path="rules">
-  <p class="num" aria-hidden="true">7</p>
-  <h2>Think like an automator.</h2>
-  <p>If you're ever doing data entry, ask "can I have Claude do this?"</p>
-  <p>For anything you're doing, ask yourself: can Claude do this, or can we make a skill for it?</p>
-</section>
-
-<section class="slide" data-id="rules-8" data-path="rules">
-  <p class="num" aria-hidden="true">8</p>
-  <h2>Anything you do more than once, make it a skill.</h2>
-  <p>Have Claude write it, using Matt Pocock's <code>writing-for-agents</code> skill.</p>
-</section>
-
-<section class="slide" data-id="rules-9" data-path="rules">
-  <p class="num" aria-hidden="true">9</p>
-  <h2>Keep your global <code>~/.claude/CLAUDE.md</code> short.</h2>
-  <p>It's context for every session you run.</p>
-</section>
-
-<section class="slide" data-id="rules-10" data-path="rules">
-  <p class="num" aria-hidden="true">10</p>
-  <h2>Don't let Claude read sensitive info directly.</h2>
-  <p>Have it write a script that reads the secret and puts it where it needs to go, so Claude never sees it.</p>
-</section>
-
-<section class="slide" data-id="rules-11" data-path="rules">
-  <p class="num" aria-hidden="true">11</p>
-  <h2>Context is everything.</h2>
-  <p>Every new problem gets a fresh workspace with only the context it needs.</p>
-  <p>Be as verbose as you like with that context, just don't confuse it - if you're studying bananas, don't mention oranges.</p>
-</section>
-
-<section class="slide" data-id="rules-12" data-path="rules">
-  <p class="num" aria-hidden="true">12</p>
-  <h2>Treat Claude like a junior dev.</h2>
-  <p>Give it the exact plan, so it can't fuck up. The more leniency you give it, the more it takes.</p>
-</section>
-
-<section class="slide" data-id="rules-13" data-path="rules">
-  <p class="num" aria-hidden="true">13</p>
-  <h2>Claude is a reflection of you and what you know.</h2>
-  <p>It will be sycophantic, so tell it what to do. You're still the driver.</p>
-</section>
-
-<section class="slide" data-id="rules-14" data-path="rules">
-  <p class="num" aria-hidden="true">14</p>
-  <h2>Have agents argue.</h2>
-  <p>Have them test things against each other: one builds, another attacks it.</p>
-  <p><code>/arena</code> is the extreme version - a whole bracket of them.</p>
-</section>
-
-<section class="slide" data-id="rules-15" data-path="rules">
-  <p class="num" aria-hidden="true">15</p>
-  <h2>Trust and verify.</h2>
-  <p>Use test-driven development (<code>/tdd</code>), so the agent can prove the output is correct, not just claim it.</p>
-  <p>Have Claude run your tests, or audit the code with <code>/ponytail-audit</code>. Matt Pocock's closest is <code>/improve-codebase-architecture</code>.</p>
-</section>
-
-<section class="slide" data-id="rules-16" data-path="rules">
-  <p class="num" aria-hidden="true">16</p>
-  <h2>The ticket runbook does most of this for you.</h2>
-  <p>Every ticket works test-first with <code>/tdd</code>, runs the full test suite and gets a ponytail review. Then a separate agent reviews it for bugs, spec and live data. Live data is n/a locally.</p>
-  <p>The one thing it doesn't do is an audit. Run <code>/ponytail-audit</code> yourself every so often.</p>
-</section>
-
-<section class="slide" data-id="rules-17" data-path="rules">
-  <p class="num" aria-hidden="true">17</p>
-  <h2>Don't know what you don't know? Ask Claude.</h2>
-  <p>Keep asking until you get to the bottom of it. That's how you learn to use this.</p>
-  <p>You no longer have to be a programmer to program.</p>
-</section>
-
-<section class="slide" data-id="rules-18" data-path="rules">
-  <p class="num" aria-hidden="true">18</p>
-  <h2>Watch your context.</h2>
-  <p>The statusline's <code>ctx</code> is how much of the window this session is using. Keep it under about 30%.</p>
-  <p>Past that, <code>/clear</code> or <code>/compact</code> to stay out of the dumb zone.</p>
-</section>
-
-<section class="slide" data-id="rules-19" data-path="rules">
-  <p class="num" aria-hidden="true">19</p>
-  <h2>Budget with the statusline.</h2>
-  <p><code>5h</code>, <code>7d</code> and <code>pace</code> tell you how much effort and how many parallel sessions you can throw at a problem.</p>
-  <p>Don't be afraid to work in parallel - just make sure agents working in the same codebase know about each other.</p>
-</section>
-
-<section class="slide" data-id="rules-20" data-path="rules">
-  <p class="num" aria-hidden="true">20</p>
-  <h2>Leave <code>system-tui</code> open.</h2>
-  <p>It doubles as caffeine. It keeps your Mac awake while it runs, so you can walk away and leave your agents working.</p>
-  <p class="note">It uses macOS <code>caffeinate</code>, and only holds the Mac awake while it's open.</p>
-</section>
-
-<section class="slide" data-id="rules-21" data-path="rules">
-  <p class="num" aria-hidden="true">21</p>
-  <h2>Name your sessions.</h2>
-  <p><code>/rename &lt;name&gt;</code>, or start with <code>claude -n &lt;name&gt;</code>, so you can tell which one is doing what.</p>
-  <p>I name them after their folder or their problem.</p>
-</section>
-
-<section class="slide" data-id="rules-22" data-path="rules">
-  <p class="num" aria-hidden="true">22</p>
-  <h2>The starting flow for a small problem.</h2>
-  <ol class="flow">
-    <li>A new workspace.</li>
-    <li><code>/setup-matt-pocock-skills</code></li>
-    <li><code>/grill-with-docs</code> with your plan.</li>
-    <li><code>/to-spec</code></li>
-    <li><code>/to-tickets</code></li>
-    <li>One subagent per ticket.</li>
-  </ol>
-  <p>Type the skills - Claude can't start them. The main chat never implements: subagents build every ticket, at medium effort (low for a tiny fix). Bigger? <code>/wayfinder</code> first.</p>
-  <p class="note">What each does: see <a href="#kit-3">Plan: get it straight</a>.</p>
-</section>
-
-<section class="slide" data-id="rules-23" data-path="rules">
-  <p class="num" aria-hidden="true">23</p>
-  <h2>GitHub is your friend.</h2>
-  <p>Use it to store your work. Claude knows how to organize itself there.</p>
-</section>
-
-<section class="slide" data-id="rules-24" data-path="rules">
-  <p class="num" aria-hidden="true">24</p>
-  <h2>Code is cheap.</h2>
-  <p>Don't be afraid to refactor or rebuild something if it's not working. It's often faster to rebuild a system or a script than to fix an old one.</p>
-</section>
-
-<section class="slide" data-id="rules-25" data-path="rules">
-  <p class="num" aria-hidden="true">25</p>
-  <h2>Dictate with Wispr Flow.</h2>
-  <p>Download <a href="https://wisprflow.ai" target="_blank" rel="noopener">Wispr Flow</a> and talk to Claude instead of typing. It makes your life so much easier.</p>
-</section>
-
-<section class="slide" data-id="rules-26" data-path="rules">
-  <p class="num" aria-hidden="true">26</p>
-  <h2>Get excited about working out how to use Claude best.</h2>
-  <p>Treat it as a thought experiment. Being able to take on any problem is fun.</p>
-</section>
-
 <!-- ======================= INSTALL ======================= -->
 <section class="slide" data-id="install-1" data-path="install">
-  <h2>Open the tutorial and pick a path</h2>
+  <h2>Open this page and pick a path</h2>
   <dl class="step">
-    <dt>Claude does</dt><dd>Publishes this page and sends you the link, even if you've installed before. Then asks which of the five paths you want.</dd>
-    <dt class="you">You type</dt><dd>A path's name from the start slide, like <kbd>Install the kit</kbd> or <kbd>Do the demo (Snake)</kbd>.</dd>
+    <dt>Claude does</dt><dd>Publishes this page and sends you the link, even if you've installed before. Then asks which path you want. Nothing is installed yet.</dd>
+    <dt class="you">You type</dt><dd>A path's name from the start slide, like <kbd>Install the kit</kbd> or <kbd>Do the demo (Snake)</kbd>. The demo runs this install first.</dd>
     <dt>You see</dt><dd>A link in chat, or this page in your browser.</dd>
     <dt>Worked if</dt><dd>You're reading this.</dd>
   </dl>
@@ -378,20 +202,21 @@ code, kbd, pre, .term, .chip, .tag, .where, .eyebrow, .copy, th, .step dt, .p-se
 <section class="slide" data-id="install-2" data-path="install">
   <h2>Check prerequisites</h2>
   <dl class="step">
-    <dt>Claude does</dt><dd>Checks for macOS, <code>claude</code>, <code>python3</code>, <code>git</code>, and optionally <code>cargo</code> (Rust). Read only.</dd>
+    <dt>Claude does</dt><dd>Checks for macOS, <code>claude</code>, <code>python3</code> and <code>git</code>, and optionally <code>node</code> and <code>cargo</code> (Rust). Read only.</dd>
     <dt class="you">You type</dt><dd>Nothing.</dd>
     <dt>You see</dt><dd>Something like:<pre class="term">Darwin
 ~/.local/bin/claude
 python3 ok
-git version 2.50.1</pre></dd>
-    <dt>Worked if</dt><dd>Every line prints. If <code>python3</code> or <code>git</code> fails, run <code>xcode-select --install</code> and start over. No <code>cargo</code>, or a <code>cargo</code> error, is fine - you get everything but the dashboard.</dd>
+git version 2.50.1
+v24.1.0</pre></dd>
+    <dt>Worked if</dt><dd>Every line prints. If <code>python3</code> or <code>git</code> fails, run <code>xcode-select --install</code> and start over. No <code>cargo</code> is fine: you get everything but the dashboard. No <code>node</code> means no <code>ponytail</code> and no demo, so get it from <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a> first.</dd>
   </dl>
 </section>
 
 <section class="slide" data-id="install-3" data-path="install">
   <h2>Pick the code folder</h2>
   <dl class="step">
-    <dt>Claude does</dt><dd>Nothing, unless you name a folder. For <code>system-tui</code>'s disk panel, it reuses your last pick, else the first that exists of <code>~/code</code>, <code>~/src</code>, <code>~/Projects</code>, <code>~/Developer</code>, <code>~/dev</code>.</dd>
+    <dt>Claude does</dt><dd>Nothing, unless you name a folder. For <code>system-tui</code>'s disk panel, it reuses your last pick, else the first of <code>~/code</code>, <code>~/src</code>, <code>~/Projects</code>, <code>~/Developer</code>, <code>~/dev</code> with something in it besides this kit.</dd>
     <dt class="you">You type</dt><dd>Nothing, or where your code lives.</dd>
     <dt>You see</dt><dd><code>project folder ~/src</code> at step <code>6/6</code>, if <code>system-tui</code> builds.</dd>
     <dt>Worked if</dt><dd>It's your code folder. Change it with <code>bash install.sh --code-dir &lt;folder&gt;</code>.</dd>
@@ -401,17 +226,17 @@ git version 2.50.1</pre></dd>
 <section class="slide" data-id="install-4" data-path="install">
   <h2>Run the installer</h2>
   <dl class="step">
-    <dt>Claude does</dt><dd>Puts three skills and the statusline in <code>~/.claude</code>, installs two plugins, and builds <code>system-tui</code> if you have Rust. Backs up what it replaces. Asks first.</dd>
-    <dt class="you">You type</dt><dd><kbd>yes</kbd></dd>
+    <dt>Claude does</dt><dd>Puts three skills and the statusline in <code>~/.claude</code>, installs three plugins, and builds <code>system-tui</code> if you have Rust. Backs up what it replaces. Asks first. <a href="https://constdecimalserrno.github.io/ai-welcome-kit/guide.html#safe" target="_blank" rel="noopener">Is this safe, and how do I undo it?</a></dd>
+    <dt class="you">You type</dt><dd><kbd>yes</kbd>, or <kbd>no</kbd> and nothing changes. Want less? Say what to skip, like <kbd>skip arena</kbd>.</dd>
     <dt>You see</dt><dd><pre class="term"><span class="dim">==&gt; 1/6 prerequisites
   …
 ==&gt; 6/6 system-tui</span>
 Verify:
-  <span class="ok">[ok]</span> skill living-doc
+  <span class="ok">[ok]</span> skill kit-living-doc
   <span class="ok">[ok]</span> skill arena
   <span class="ok">[ok]</span> plugin ponytail
   …</pre></dd>
-    <dt>Worked if</dt><dd>Every <code>Verify:</code> line says <code>[ok]</code>. <code>[--]</code> on <code>system-tui</code> is fine: no Rust, or it needs <code>rustup default stable</code>. Have a skill by that name already? Claude asks first.</dd>
+    <dt>Worked if</dt><dd>Every <code>Verify:</code> line says <code>[ok]</code>. <code>[--]</code> is fine too: it means skipped or kept, like <code>system-tui</code> with no Rust. Your own skills and statusline stay, and Claude tells you if any did.</dd>
   </dl>
 </section>
 
@@ -428,32 +253,36 @@ Verify:
 <section class="slide" data-id="install-6" data-path="install">
   <h2>Restart and wrap up</h2>
   <dl class="step">
-    <dt>Claude does</dt><dd>Tells you what installed, what got skipped and where backups went. Then you restart Claude Code, so it loads everything.</dd>
+    <dt>Claude does</dt><dd>Tells you what installed, what got skipped and where backups went. Then you restart Claude Code, so it loads everything. <code>/exit</code> only closes this session: nothing is lost, and this page's link keeps working.</dd>
     <dt class="you">You type</dt><dd><pre class="term copyable">/exit
 claude --model opus --effort medium</pre><span>Doing the demo? Just <code>/exit</code>: demo-2 starts your next session.</span></dd>
     <dt>You see</dt><dd>The statusline at the bottom, like <code>Opus·medium │ ctx 3% …</code></dd>
-    <dt>Worked if</dt><dd>The statusline shows, and typing <kbd>/</kbd> lists <code>living-doc</code>, <code>ticket-runbook</code> and <code>arena</code>.</dd>
+    <dt>Worked if</dt><dd>The statusline shows, and typing <kbd>/</kbd> lists <code>kit-living-doc</code>, <code>kit-ticket-runbook</code> and <code>arena</code>.</dd>
   </dl>
 </section>
 
 <section class="slide" data-id="install-done" data-path="install" data-extra="Checklist">
   <h2>You're done when</h2>
   <ul class="checks">
-    <li><label><input type="checkbox" id="done-1"><span>Every <code>Verify:</code> line says <code>[ok]</code> (<code>[--]</code> is fine for <code>system-tui</code>)</span></label></li>
+    <li><label><input type="checkbox" id="done-1"><span>Every <code>Verify:</code> line says <code>[ok]</code> or <code>[--]</code></span></label></li>
     <li><label><input type="checkbox" id="done-2"><span>You restarted Claude Code and the statusline shows</span></label></li>
-    <li><label><input type="checkbox" id="done-3"><span>Typing <kbd>/</kbd> lists <code>living-doc</code>, <code>ticket-runbook</code> and <code>arena</code></span></label></li>
-    <li><label><input type="checkbox" id="done-4"><span>You know when to use low, medium and high effort</span></label></li>
-    <li><label><input type="checkbox" id="done-5"><span><code>system-tui</code> runs in a new terminal, or you skipped it on purpose</span></label></li>
-    <li><label><input type="checkbox" id="done-6"><span>Your first project has its own folder and a <code>CLAUDE.md</code></span></label></li>
+    <li><label><input type="checkbox" id="done-3"><span>Typing <kbd>/</kbd> lists <code>kit-living-doc</code>, <code>kit-ticket-runbook</code> and <code>arena</code></span></label></li>
+    <li><label><input type="checkbox" id="done-4"><span>You've tried something from <a href="https://constdecimalserrno.github.io/ai-welcome-kit/guide.html#first-day" target="_blank" rel="noopener">Your first day</a></span></label></li>
+    <li><label><input type="checkbox" id="done-5"><span><code>system-tui</code> runs in a new terminal, if it was built</span></label></li>
   </ul>
 </section>
 
 <!-- ======================= DEMO: SNAKE ======================= -->
 <section class="slide" data-id="demo-1" data-path="demo">
   <h2>What you're building</h2>
-  <p>A very simple Snake game for the web. You script the snake, play it thousands of times from fixed seeds, and chart which strategy solves it fastest.</p>
-  <p>The brief is <code>examples/snake/BRIEF.md</code>. It uses nearly every skill once.</p>
-  <p>Your main chat only plans and hands out work. Plan at high effort, build at medium.</p>
+  <p>A very simple Snake game for the web. You'll play it, invent your own strategies with Claude, run them thousands of times from fixed seeds, and chart which one solves it fastest.</p>
+  <ul class="plain">
+    <li><strong>Seed:</strong> like shuffling a deck in a known order. The same seed deals the same food every time, so runs can be compared.</li>
+    <li><strong>Strategy:</strong> a small script that decides the snake's next move. The game ships with none. You make them.</li>
+    <li><strong>CSV:</strong> a spreadsheet saved as plain text. Here, the results.</li>
+  </ul>
+  <p>It takes an afternoon, and it's far more process than a game this small needs. That's on purpose: you're learning a flow for bigger work. Slides tagged <span class="chip">optional</span> can be skipped.</p>
+  <p>Your main chat only plans and hands out work. Plan at high effort, build at medium. The brief is <code>examples/snake/BRIEF.md</code>.</p>
 </section>
 
 <section class="slide" data-id="demo-2" data-path="demo">
@@ -462,7 +291,7 @@ claude --model opus --effort medium</pre><span>Doing the demo? Just <code>/exit<
   <dl class="step">
     <dt>Claude does</dt><dd>Nothing. Type these in your terminal - it's your restart after install.</dd>
     <dt class="you">You type</dt><dd><span>Run <code>git config user.name</code>. If it prints nothing, set your name first:</span><pre class="term copyable">git config --global user.name "Your Name"
-git config --global user.email you@example.com</pre><span>Then:</span><pre class="term copyable">mkdir -p ~/src/snake/context &amp;&amp; cd ~/src/snake
+git config --global user.email you@example.com</pre><span>Then, swapping <code>~/src</code> for your own code folder if you have one:</span><pre class="term copyable">mkdir -p ~/src/snake/context &amp;&amp; cd ~/src/snake
 cp ~/src/ai-welcome-kit/examples/snake/BRIEF.md .
 git init -q &amp;&amp; git commit -q --allow-empty -m init
 claude -n snake --model opus --effort high</pre></dd>
@@ -472,60 +301,58 @@ claude -n snake --model opus --effort high</pre></dd>
 </section>
 
 <section class="slide" data-id="demo-3" data-path="demo">
-  <h2>Write the project's CLAUDE.md</h2>
-  <div class="chips"><span class="chip">writing-for-agents</span><span class="chip">effort: high</span></div>
+  <h2>Play something first</h2>
+  <div class="chips"><span class="chip">prototype</span><span class="chip">effort: medium</span></div>
   <dl class="step">
-    <dt>Claude does</dt><dd>Writes the rules for this folder.</dd>
-    <dt class="you">You type</dt><dd><pre class="term copyable">Use writing-for-agents to write a CLAUDE.md for this project from BRIEF.md: the rules, the layout, that context/ is read-only reference, that tickets land on local main, and that this chat never implements.</pre></dd>
-    <dt>You see</dt><dd>A short <code>CLAUDE.md</code>.</dd>
-    <dt>Worked if</dt><dd>It says this chat never implements. Claude reads it at the start of every session in this folder.</dd>
+    <dt>Claude does</dt><dd>A subagent builds a throwaway Snake you can play in a couple of minutes, before any of the planning.</dd>
+    <dt class="you">You type</dt><dd><pre class="term copyable">/prototype Have a subagent (Opus, medium) build the quickest playable Snake from BRIEF.md as one file, prototype.html, with arrow keys. Then open it in my browser. Throwaway: no tests, no commits.</pre></dd>
+    <dt>You see</dt><dd>A game in your browser.</dd>
+    <dt>Worked if</dt><dd>You can steer it. That took minutes. The rest of the demo is how you get something you can trust.</dd>
   </dl>
 </section>
 
 <section class="slide" data-id="demo-4" data-path="demo">
-  <h2>Set up the skills</h2>
-  <div class="chips"><span class="chip">setup-matt-pocock-skills</span><span class="chip">effort: high</span></div>
+  <h2>Write the project's CLAUDE.md</h2>
+  <div class="chips"><span class="chip">writing-for-agents</span><span class="chip">effort: high</span></div>
   <dl class="step">
-    <dt>Claude does</dt><dd>Sets up an issue tracker (local Markdown files), triage labels and a doc layout.</dd>
-    <dt class="you">You type</dt><dd><pre class="term copyable">/setup-matt-pocock-skills Use local markdown for the issue tracker.</pre></dd>
-    <dt>You see</dt><dd>Questions on labels, then drafts to confirm. Say <kbd>yes</kbd> to the defaults.</dd>
-    <dt>Worked if</dt><dd>The tracker, labels and docs are in the repo, and its block is in the <code>CLAUDE.md</code> you just wrote. That's why <code>CLAUDE.md</code> comes first.</dd>
+    <dt>Claude does</dt><dd>Writes the rules for this folder. <code>CLAUDE.md</code> is the notes file Claude reads at the start of every session.</dd>
+    <dt class="you">You type</dt><dd><pre class="term copyable">Use writing-for-agents to write a CLAUDE.md for this project from BRIEF.md: the rules, the layout, that context/ is read-only reference, that tickets land on local main, and that this chat never implements, and that prototype.html is a throwaway.</pre></dd>
+    <dt>You see</dt><dd>A short <code>CLAUDE.md</code>.</dd>
+    <dt>Worked if</dt><dd>It says this chat never implements.</dd>
   </dl>
 </section>
 
 <section class="slide" data-id="demo-5" data-path="demo">
-  <h2>Grill the brief</h2>
-  <div class="chips"><span class="chip">grill-with-docs</span><span class="chip">effort: high or xhigh</span></div>
+  <h2>Set up the skills</h2>
+  <div class="chips"><span class="chip">setup-matt-pocock-skills</span><span class="chip">effort: high</span></div>
   <dl class="step">
-    <dt>Claude does</dt><dd>Asks numbered questions in rounds, each with a recommended answer, like: what happens when a CSV runs out?</dd>
-    <dt class="you">You type</dt><dd><pre class="term copyable">/grill-with-docs Grill me on BRIEF.md before we build anything.</pre><span>Then answer each round. <kbd>yes</kbd> accepts the recommended answer.</span></dd>
-    <dt>You see</dt><dd>Your answers land in a glossary and decision records as you go.</dd>
-    <dt>Worked if</dt><dd>No questions left, you confirm, and every answer is written down.</dd>
+    <dt>Claude does</dt><dd>Sets up an issue tracker (local Markdown files), triage labels and a doc layout.</dd>
+    <dt class="you">You type</dt><dd><pre class="term copyable">/setup-matt-pocock-skills Use local markdown for the issue tracker, and your defaults for everything else.</pre></dd>
+    <dt>You see</dt><dd>Maybe a draft to confirm. Say <kbd>yes</kbd>: none of this matters much for a small game. You're seeing it once so you know it's there.</dd>
+    <dt>Worked if</dt><dd>The tracker, labels and docs are in the repo, and its block is in the <code>CLAUDE.md</code> you just wrote. That's why <code>CLAUDE.md</code> comes first.</dd>
   </dl>
 </section>
 
 <section class="slide" data-id="demo-6" data-path="demo">
+  <h2>Grill the brief</h2>
+  <div class="chips"><span class="chip">grill-with-docs</span><span class="chip">effort: high or xhigh</span></div>
+  <dl class="step">
+    <dt>Claude does</dt><dd>Asks numbered questions in rounds, each with a recommended answer, like: what happens when a script tries to reverse into itself?</dd>
+    <dt class="you">You type</dt><dd><pre class="term copyable">/grill-with-docs Grill me on BRIEF.md before we build anything.</pre><span>Then answer each round. <kbd>yes</kbd> accepts the recommended answer.</span></dd>
+    <dt>You see</dt><dd>Terms and big decisions land in a glossary and decision records as you go. The rest stays in this chat until the spec, so don't <code>/clear</code> yet.</dd>
+    <dt>Worked if</dt><dd>No questions left, and you confirm.</dd>
+  </dl>
+</section>
+
+<section class="slide" data-id="demo-7" data-path="demo">
   <h2>Name the terms</h2>
-  <div class="chips"><span class="chip">domain-modeling</span><span class="chip">effort: high</span></div>
-  <p class="note">Optional. <code>/grill-with-docs</code> already wrote a glossary - only do this if it's still fuzzy.</p>
+  <div class="chips"><span class="chip">optional</span><span class="chip">domain-modeling</span><span class="chip">effort: high</span></div>
+  <p class="note"><code>/grill-with-docs</code> already wrote a glossary. Only do this if it's still fuzzy.</p>
   <dl class="step">
     <dt>Claude does</dt><dd>Tightens the glossary.</dd>
     <dt class="you">You type</dt><dd><pre class="term copyable">/domain-modeling Sharpen the glossary: seed, script, strategy, run and outcome.</pre></dd>
     <dt>You see</dt><dd>A tighter <code>GLOSSARY.md</code>.</dd>
     <dt>Worked if</dt><dd>"Run" means one thing everywhere: the code, the CSV and the chart labels.</dd>
-  </dl>
-</section>
-
-<section class="slide" data-id="demo-7" data-path="demo">
-  <h2>Prototype the board</h2>
-  <div class="chips"><span class="chip">prototype</span><span class="chip">effort: medium</span></div>
-  <dl class="step">
-    <dt>Claude does</dt><dd>A subagent builds both boards in one page, on a side branch.</dd>
-    <dt class="you">You type</dt><dd><pre class="term copyable">/prototype Canvas or CSS grid for the board? Have a subagent build both in prototype-board.html, picked by ?variant=grid or canvas. Commit it on branch prototype/board, then switch back to main.</pre><span>Then, in a new tab, serve the branch from its own folder, so Claude's files stay put:</span><pre class="term copyable">cd ~/src/snake
-git worktree add ../snake-proto prototype/board
-cd ../snake-proto &amp;&amp; python3 -m http.server 8000</pre></dd>
-    <dt>You see</dt><dd>The server starts. Open this, then swap <code>grid</code> for <code>canvas</code>:<pre class="term copyable">http://localhost:8000/prototype-board.html?variant=grid</pre></dd>
-    <dt>Worked if</dt><dd>Tell Claude your pick, for the spec. Then <kbd>Ctrl-C</kbd> the server, and:<pre class="term copyable">cd ~/src/snake &amp;&amp; git worktree remove ../snake-proto</pre></dd>
   </dl>
 </section>
 
@@ -553,9 +380,9 @@ cd ../snake-proto &amp;&amp; python3 -m http.server 8000</pre></dd>
 
 <section class="slide" data-id="demo-10" data-path="demo">
   <h2>Start the living doc</h2>
-  <div class="chips"><span class="chip">living-doc</span><span class="chip">effort: medium</span></div>
+  <div class="chips"><span class="chip">kit-living-doc</span><span class="chip">effort: medium</span></div>
   <dl class="step">
-    <dt>Claude does</dt><dd>Picks a title, slug and owner from the folder and your git name, then publishes a progress page for every ticket. It syncs the page after every ticket change.</dd>
+    <dt>Claude does</dt><dd>Picks a title, slug and owner from the folder and your git name, then publishes a progress page for every ticket. It syncs the page after every ticket change. A ticket is one small piece of work in a file, and this is their scoreboard.</dd>
     <dt class="you">You type</dt><dd><pre class="term copyable">/effort medium
 Start a living doc for the tickets /to-tickets wrote. It's a local project: no service, no deploys.</pre></dd>
     <dt>You see</dt><dd>Those defaults in one line, then a link. Solo? Skip its note about sharing.</dd>
@@ -564,41 +391,67 @@ Start a living doc for the tickets /to-tickets wrote. It's a local project: no s
 </section>
 
 <section class="slide" data-id="demo-11" data-path="demo">
-  <h2>Test first, inside every ticket</h2>
-  <div class="chips"><span class="chip">tdd</span><span class="chip">diagnosing-bugs</span></div>
+  <h2>Build it</h2>
+  <div class="chips"><span class="chip">kit-ticket-runbook</span><span class="chip">tdd</span><span class="chip">effort: medium</span></div>
+  <p class="note">The heaviest step: about 750k tokens and 48 minutes in my test. Check <code>5h</code> on the statusline first. You can walk away.</p>
   <dl class="step">
-    <dt>Claude does</dt><dd>Each ticket's builder runs these:<ul class="plain">
-    <li><code>/tdd</code>: a failing test, then the code that passes it. One test: seed 42 always gives the same numbers.</li>
-    <li><code>/diagnosing-bugs</code>: only if a seed plays differently in the runner and the page. Find the cause, pin it with a test.</li>
-  </ul></dd>
-    <dt class="you">You type</dt><dd>Nothing.</dd>
-  </dl>
-</section>
-
-<section class="slide" data-id="demo-12" data-path="demo">
-  <h2>The builder</h2>
-  <div class="chips"><span class="chip">ticket-runbook</span><span class="chip">effort: medium</span></div>
-  <dl class="step">
-    <dt>Claude does</dt><dd>Gives each ticket, in order, a builder subagent. It runs runbook steps 1-7 and commits to local <code>main</code>. Locally, 2 (worktree) and 7 (PR) are n/a.</dd>
-    <dt class="you">You type</dt><dd><pre class="term copyable">Work the tickets in order, or in parallel when they touch separate files. For each, a builder subagent (Opus, medium; low if tiny) runs ticket-runbook steps 1-7, test-first, with the spec's Testing Decisions as the seams. Builders follow the runbook's "Already a subagent?" rule, so /tdd, /implement and code-review run inline.</pre><span>Don't send it yet. Paste the next slide's prompt under it, then send both as one message.</span></dd>
-    <dt>You see</dt><dd>One builder per ticket, each reporting its tests and its commit.</dd>
-  </dl>
-</section>
-
-<section class="slide" data-id="demo-13" data-path="demo">
-  <h2>The reviewer</h2>
-  <div class="chips"><span class="chip">ticket-runbook</span><span class="chip">effort: medium</span></div>
-  <dl class="step">
-    <dt>Claude does</dt><dd>A separate reviewer runs step 8's bug and spec reviews on each builder's diff. Live data is n/a locally. <a href="#rules-14">Agents argue</a>.</dd>
-    <dt class="you">You type</dt><dd><pre class="term copyable">After each builder, a separate reviewer subagent (Opus, medium) runs step 8 on its diff, under the same "Already a subagent?" rule. Findings go back to a builder until it passes. Then tick 8, 10 and 13, and sync the living doc.</pre></dd>
-    <dt>You see</dt><dd>Tickets closing on local <code>main</code>. The main chat ticks 8, 10 and 13; 2, 7, 9, 11, 12 are n/a.</dd>
+    <dt>Claude does</dt><dd>Commits the plan, then works the tickets one at a time. A builder subagent writes a failing test, then the code. A separate reviewer attacks the result, and findings go back until it passes. <a href="https://constdecimalserrno.github.io/ai-welcome-kit/guide.html#agents-argue" target="_blank" rel="noopener">Agents argue</a>.</dd>
+    <dt class="you">You type</dt><dd><pre class="term copyable">First commit everything so far. Then work the tickets in order. For each, a builder subagent (Opus, medium; low if tiny) runs kit-ticket-runbook steps 1-7, test-first, with the spec's Testing Decisions as the seams. Then a separate reviewer subagent (Opus, medium) runs step 8 on its diff, and findings go back to a builder until it passes. Both follow the runbook's "Already a subagent?" rule. Then tick 8, 10 and 13, and sync the living doc.</pre></dd>
+    <dt>You see</dt><dd>Each ticket reporting its tests, its commit and its review, then closing on local <code>main</code>. Steps 2, 7, 9, 11 and 12 are n/a locally.</dd>
     <dt>Worked if</dt><dd>Tests pass, the game plays, and the runner writes <code>results.csv</code>.</dd>
   </dl>
 </section>
 
+<section class="slide" data-id="demo-12" data-path="demo">
+  <h2>Go play it</h2>
+  <div class="chips"><span class="chip">you made this</span></div>
+  <dl class="step">
+    <dt>Claude does</dt><dd>Starts the game for you.</dd>
+    <dt class="you">You type</dt><dd><pre class="term copyable">Start the game on a local server, open it in my browser, and tell me how to play.</pre></dd>
+    <dt>You see</dt><dd>Your game. Steer with the arrow keys, then drag the step slider to go back over any moment.</dd>
+    <dt>Worked if</dt><dd>You've played a game you built. Leave it open for the next slide.</dd>
+  </dl>
+</section>
+
+<section class="slide" data-id="demo-13" data-path="demo">
+  <h2>Invent a strategy</h2>
+  <div class="chips"><span class="chip">you and Claude</span><span class="chip">loop this</span><span class="chip">effort: medium</span></div>
+  <p>The game has no strategies in it. This is the fun part: how would <em>you</em> play? Describe it in plain words. Claude writes it, you try it, and you go round again.</p>
+  <dl class="step">
+    <dt class="you">1. Describe it</dt><dd><pre class="term copyable">Have a subagent (Opus, low) turn this into strategies/my-idea.js, with a decide(state) function: [how you'd play, in your own words]</pre></dd>
+    <dt class="you">2. Upload it</dt><dd>In the game, press <kbd>Strategy file</kbd> and pick <code>strategies/my-idea.js</code>.</dd>
+    <dt class="you">3. Try it</dt><dd>Press <kbd>Play</kbd> and watch. When it dies, drag the step slider back to where it went wrong.</dd>
+    <dt class="you">4. Go again</dt><dd><pre class="term copyable">At step [N] it [what went wrong]. Fix that in strategies/my-idea.js.</pre><span>Upload it again and replay the same seed. Then try other seeds.</span></dd>
+    <dt>Worked if</dt><dd>You have at least two strategies in <code>strategies/</code>, and one reaches score 20, or you know why it can't.</dd>
+  </dl>
+</section>
+
 <section class="slide" data-id="demo-14" data-path="demo">
+  <h2>Look something up</h2>
+  <div class="chips"><span class="chip">optional</span><span class="chip">research</span><span class="chip">effort: medium</span></div>
+  <p class="note">Use it if you're stuck for a strategy idea. Skip it if you aren't.</p>
+  <dl class="step">
+    <dt>Claude does</dt><dd>Answers the question from primary sources.</dd>
+    <dt class="you">You type</dt><dd><pre class="term copyable">/research What are the known strategies for solving Snake on a full board, and what do they cost in steps?</pre></dd>
+    <dt>You see</dt><dd>It says it's researching in the background. A few minutes later, a Markdown file with findings and sources lands in the repo.</dd>
+    <dt>Worked if</dt><dd>Anything worth building, like a better strategy, is a ticket.</dd>
+  </dl>
+</section>
+
+<section class="slide" data-id="demo-15" data-path="demo">
+  <h2>Make it look good</h2>
+  <div class="chips"><span class="chip">frontend-design</span><span class="chip">effort: medium</span></div>
+  <dl class="step">
+    <dt>Claude does</dt><dd>Gives the page a real design, without touching how the game plays.</dd>
+    <dt class="you">You type</dt><dd><pre class="term copyable">/frontend-design:frontend-design Make the Snake page look great: [the feel you want]. Have a subagent do it as a ticket. Don't change the game rules, the step slider or strategy upload.</pre></dd>
+    <dt>You see</dt><dd>The same game, redesigned, when you refresh the page.</dd>
+    <dt>Worked if</dt><dd>You like it, and your strategies still run the same. If not, say what's off and go again.</dd>
+  </dl>
+</section>
+
+<section class="slide" data-id="demo-16" data-path="demo">
   <h2>Clean up the runner/game seam</h2>
-  <div class="chips"><span class="chip">codebase-design</span><span class="chip">effort: high</span></div>
+  <div class="chips"><span class="chip">optional</span><span class="chip">codebase-design</span><span class="chip">effort: high</span></div>
   <p class="note">Only reach for this if the seam gets messy.</p>
   <dl class="step">
     <dt>Claude does</dt><dd>Checks whether both copy the loop. If so, proposes one game module that both use, with rendering on in the page and off in the runner.</dd>
@@ -608,22 +461,10 @@ Start a living doc for the tickets /to-tickets wrote. It's a local project: no s
   </dl>
 </section>
 
-<section class="slide" data-id="demo-15" data-path="demo">
-  <h2>Look something up</h2>
-  <div class="chips"><span class="chip">research</span><span class="chip">effort: medium</span></div>
-  <p class="note">Use it if you're stuck for a third strategy. Skip it if you aren't.</p>
-  <dl class="step">
-    <dt>Claude does</dt><dd>Answers the question from primary sources.</dd>
-    <dt class="you">You type</dt><dd><pre class="term copyable">/research What are the known strategies for solving Snake on a full board, and what do they cost in steps?</pre></dd>
-    <dt>You see</dt><dd>It says it's researching in the background. A few minutes later, a Markdown file with findings and sources lands in the repo.</dd>
-    <dt>Worked if</dt><dd>Anything worth building, like a better strategy, is a ticket.</dd>
-  </dl>
-</section>
-
-<section class="slide" data-id="demo-16" data-path="demo">
+<section class="slide" data-id="demo-17" data-path="demo">
   <h2>Back it up on GitHub</h2>
-  <div class="chips"><span class="chip">gh</span><span class="chip">effort: medium</span></div>
-  <p class="note">Optional, once tickets are on local <code>main</code>.</p>
+  <div class="chips"><span class="chip">optional</span><span class="chip">gh</span><span class="chip">effort: medium</span></div>
+  <p class="note">Once tickets are on local <code>main</code>.</p>
   <dl class="step">
     <dt>Claude does</dt><dd>Makes a private repo and pushes <code>main</code>. Tickets still land on local <code>main</code>.</dd>
     <dt class="you">You type</dt><dd><span>Once, in your terminal:</span><pre class="term copyable">brew install gh &amp;&amp; gh auth login</pre><span>Then, to Claude:</span><pre class="term copyable">Run gh repo create snake --private --source . --push</pre></dd>
@@ -632,202 +473,27 @@ Start a living doc for the tickets /to-tickets wrote. It's a local project: no s
   </dl>
 </section>
 
-<section class="slide" data-id="demo-17" data-path="demo">
+<section class="slide" data-id="demo-18" data-path="demo">
   <h2>Audit the whole thing</h2>
   <div class="chips"><span class="chip">ponytail-audit</span><span class="chip">effort: medium</span></div>
   <dl class="step">
-    <dt>Claude does</dt><dd>Finds bugs, risk and dead weight across the repo.</dd>
-    <dt class="you">You type</dt><dd><pre class="term copyable">/ponytail-audit</pre></dd>
+    <dt>Claude does</dt><dd>Finds bugs, risk and dead weight across the repo, and ranks them.</dd>
+    <dt class="you">You type</dt><dd><pre class="term copyable">/ponytail-audit</pre><span>Then say which findings to ticket, like <kbd>ticket 1 and 3</kbd>.</span></dd>
     <dt>You see</dt><dd>A ranked list.</dd>
-    <dt>Worked if</dt><dd>What matters is in tickets. The analysis doesn't wait on them.</dd>
+    <dt>Worked if</dt><dd>The ones you picked are in tickets. The analysis doesn't wait on them.</dd>
   </dl>
 </section>
 
-<section class="slide" data-id="demo-18" data-path="demo">
+<section class="slide" data-id="demo-19" data-path="demo">
   <h2>Publish the analysis</h2>
   <div class="chips"><span class="chip">the Artifact tool</span><span class="chip">effort: medium</span></div>
   <dl class="step">
     <dt>Claude does</dt><dd>A subagent runs every strategy on 100 seeds and publishes the charts. The main chat still only plans.</dd>
-    <dt class="you">You type</dt><dd><pre class="term copyable">Have a subagent run the runner for 100 seeds per strategy, then publish an artifact with charts (or hand me the file): how often does each strategy win, and how many steps does a win take?</pre></dd>
+    <dt class="you">You type</dt><dd><pre class="term copyable">Have a subagent run the runner for 100 seeds on each strategy I made, then publish an artifact with charts (or hand me the file): how often does each strategy win, and how many steps does a win take?</pre></dd>
     <dt>You see</dt><dd>A link to a page with charts built from <code>results.csv</code>.</dd>
-    <dt>Worked if</dt><dd>It answers both questions. That's the project done.</dd>
+    <dt>Worked if</dt><dd>It answers both questions, and you can see whether your best idea held up.</dd>
   </dl>
-</section>
-
-<!-- ======================= WHAT'S IN THE KIT ======================= -->
-<section class="slide" data-id="kit-1" data-path="kit">
-  <h2>What you're getting</h2>
-  <div class="tbl"><table>
-    <tr><td><code>living-doc</code></td><td>A progress page for a ticket effort</td></tr>
-    <tr><td><code>ticket-runbook</code></td><td>The 13 steps every ticket runs</td></tr>
-    <tr><td><code>arena</code></td><td>Many agents fight over one task</td></tr>
-    <tr><td><code>mattpocock-skills</code></td><td>Engineering skills: planning, TDD, debugging, reviews</td></tr>
-    <tr><td><code>ponytail</code></td><td>Keeps Claude's code small</td></tr>
-    <tr><td><code>system-tui</code></td><td>A terminal dashboard for your Mac and your Claude usage</td></tr>
-    <tr><td>Statusline</td><td>The bottom line of Claude Code</td></tr>
-  </table></div>
-</section>
-
-<section class="slide" data-id="kit-2" data-path="kit">
-  <h2>Start with these four</h2>
-  <p>Type a skill's name, like <code>/tdd</code>, or describe the task. A skill tagged <span class="chip">type it</span> only runs when you type it.</p>
-  <div class="tbl"><table>
-    <tr><th>Skill</th><th>Reach for it when</th></tr>
-    <tr><td><code>living-doc</code></td><td>Starting a ticket effort, or after any ticket changes</td></tr>
-    <tr><td><code>ticket-runbook</code></td><td>Working any ticket</td></tr>
-    <tr><td><code>arena</code></td><td>You hate an answer</td></tr>
-    <tr><td><code>ponytail</code></td><td>Always on. <code>/ponytail lite</code> or <code>ultra</code> changes the level</td></tr>
-  </table></div>
-</section>
-
-<section class="slide" data-id="kit-3" data-path="kit">
-  <h2>Plan: get it straight</h2>
-  <div class="tbl"><table>
-    <tr><th>Skill</th><th>Reach for it when</th></tr>
-    <tr><td><code>setup-matt-pocock-skills</code> <span class="chip">type it</span></td><td>A new repo. Run it once, first</td></tr>
-    <tr><td><code>grill-with-docs</code> <span class="chip">type it</span></td><td>Sharpening a plan, with a glossary as you go</td></tr>
-    <tr><td><code>grilling</code></td><td>Stress-testing a plan before you commit</td></tr>
-    <tr><td><code>to-spec</code> <span class="chip">type it</span></td><td>The plan is settled and you want a spec</td></tr>
-    <tr><td><code>to-tickets</code> <span class="chip">type it</span></td><td>Breaking a plan into small tickets</td></tr>
-  </table></div>
-</section>
-
-<section class="slide" data-id="kit-4" data-path="kit">
-  <h2>Plan: when it's big or unclear</h2>
-  <div class="tbl"><table>
-    <tr><th>Skill</th><th>Reach for it when</th></tr>
-    <tr><td><code>wayfinder</code> <span class="chip">type it</span></td><td>It's too big for the starting flow</td></tr>
-    <tr><td><code>domain-modeling</code></td><td>Naming things, or recording a decision</td></tr>
-    <tr><td><code>research</code></td><td>You want an answer from primary sources</td></tr>
-    <tr><td><code>prototype</code></td><td>Throwaway code beats a debate</td></tr>
-    <tr><td><code>codebase-design</code></td><td>Designing a module, or finding where to split one</td></tr>
-  </table></div>
-</section>
-
-<section class="slide" data-id="kit-5" data-path="kit">
-  <h2>Build</h2>
-  <div class="tbl"><table>
-    <tr><th>Skill</th><th>Reach for it when</th></tr>
-    <tr><td><code>implement</code> <span class="chip">type it</span></td><td>Building from a written plan</td></tr>
-    <tr><td><code>tdd</code></td><td>Building or fixing test-first</td></tr>
-    <tr><td><code>diagnosing-bugs</code></td><td>Something's broken and the cause isn't obvious</td></tr>
-    <tr><td><code>wizard</code></td><td>A setup step only a human can do</td></tr>
-    <tr><td><code>writing-for-agents</code></td><td>Writing a skill, a <code>CLAUDE.md</code>, or anything an agent reads</td></tr>
-  </table></div>
-</section>
-
-<section class="slide" data-id="kit-6" data-path="kit">
-  <h2>Review</h2>
-  <div class="tbl"><table>
-    <tr><th>Skill</th><th>Reach for it when</th></tr>
-    <tr><td><code>mattpocock-skills:code-review</code></td><td>Checking a branch against the spec. Type the full name</td></tr>
-    <tr><td><code>code-review</code></td><td>Built in. Bugs, not style</td></tr>
-    <tr><td><code>ponytail-review</code></td><td>Bugs and bloat, before a PR</td></tr>
-    <tr><td><code>ponytail-audit</code></td><td>Auditing a whole repo</td></tr>
-    <tr><td><code>pr</code></td><td>Writing a PR description</td></tr>
-  </table></div>
-</section>
-
-<section class="slide" data-id="kit-7" data-path="kit">
-  <h2>Reading the statusline</h2>
-  <pre class="term">Opus·medium <span class="dim">│</span> ctx 64% 128k <span class="dim">│</span> 5h 18% ⟳1h30m <span class="dim">│</span> 7d 30% ⟳4d <span class="dim">│</span> pace +13%</pre>
-  <p>It sits at the bottom of every Claude Code session.</p>
-  <ul class="plain">
-    <li><code>Opus·medium</code> is the model and effort.</li>
-    <li><code>ctx</code> is how full this session's context window is. Keep it under about 30% - past that, <code>/clear</code> or <code>/compact</code>. It only turns yellow at 60%, so don't wait for the color.</li>
-  </ul>
-</section>
-
-<section class="slide" data-id="kit-8" data-path="kit">
-  <h2>Usage and pace</h2>
-  <ul class="plain">
-    <li><code>5h</code> is how much of your 5-hour usage window you've used, and when it resets (<code>⟳</code>).</li>
-    <li><code>7d</code> is the same, for the weekly window.</li>
-    <li><code>pace</code> compares your 7-day usage with an even burn. <code>+</code> means you're under it, with room to spend. <code>-</code> means you're over it, so slow down.</li>
-  </ul>
-</section>
-
-<section class="slide" data-id="kit-9" data-path="kit">
-  <h2><code>system-tui</code></h2>
-  <pre class="term copyable">system-tui</pre>
-  <p>A dashboard for your Mac and your Claude sessions: CPU, memory, disk use by project, network per process, your open sessions and your plan usage. <kbd>q</kbd> quits.</p>
-  <p><strong>Leave it open.</strong> It doubles as caffeine: it keeps your Mac awake while it runs, so you can walk away and leave your agents working.</p>
-</section>
-
-<section class="slide" data-id="kit-10" data-path="kit">
-  <h2><code>system-tui</code> tips</h2>
-  <ul class="plain">
-    <li>The disk panel scans your code folder. The first scan takes a couple of minutes.</li>
-    <li>Plan usage fills once a Claude Code session is open - the statusline feeds it.</li>
-    <li>Other folder? <code>bash install.sh --code-dir &lt;folder&gt;</code></li>
-    <li>Not found? Open a new terminal, so it picks up <code>~/.cargo/bin</code>.</li>
-  </ul>
-</section>
-
-<section class="slide" data-id="kit-11" data-path="kit">
-  <p class="eyebrow">Extra</p>
-  <h2>Arena: make them fight</h2>
-  <p>Hate an answer? <code>/arena</code> hands the exact same task to a crowd of sub-agents, each with a different strategy. They pair off, attack each other's solution, defend and revise, and a judge scores every match. Losers are out, until one solution is left.</p>
-  <p class="note">By Jake Schincariol: <a href="https://github.com/Jakeschincariol/arena-skill" target="_blank" rel="noopener">Jakeschincariol/arena-skill</a>, MIT.</p>
-</section>
-
-<section class="slide" data-id="kit-12" data-path="kit">
-  <h2>Installing arena</h2>
-  <p>The kit installer puts it in for you.</p>
-  <p>Skipped the installer? Read its <code>SKILL.md</code> first - it's someone else's code. Then paste this into Claude Code:</p>
-  <pre class="term copyable">https://github.com/Jakeschincariol/arena-skill  Install this skill, then confirm /arena works.</pre>
-</section>
-
-<section class="slide" data-id="kit-13" data-path="kit">
-  <h2>Running arena</h2>
-  <pre class="term copyable">/arena --quick &lt;task&gt;</pre>
-  <p><code>--quick</code> starts 16 agents. Each one runs several times as the bracket plays out, so that's about 91 sub-agent calls. The default 100 agents is about 595. This prints the real numbers:</p>
-  <pre class="term copyable">python3 ~/.claude/skills/arena/bracket.py plan --agents 16</pre>
-  <p>Run it in accept-edits or auto mode (<kbd>Shift+Tab</kbd>), or you'll approve every file it writes.</p>
-</section>
-
-<section class="slide" data-id="kit-14" data-path="kit">
-  <h2>It's wasteful. It's also very fun.</h2>
-  <p>Arena burns usage fast - hundreds of sub-agents chewing on one task. Check <code>5h</code>, <code>7d</code> and <code>pace</code> on the statusline before you start.</p>
-  <p>Use <code>--quick</code> for everyday stuff, and save the full 100 for the answer that matters. Then sit back and watch them fight.</p>
-</section>
-
-<section class="slide" data-id="kit-15" data-path="kit">
-  <h2>Watch the bracket live</h2>
-  <p>Pair it with a living doc, and you get a page that fills in as the tournament runs.</p>
-  <pre class="term copyable">Run /arena --quick on &lt;task&gt; and keep a living doc of the bracket - one ticket per match, synced after every round.</pre>
-  <p>Open the link and watch the rounds close.</p>
-</section>
-
-<!-- ======================= REFERENCES ======================= -->
-<section class="slide" data-id="refs-1" data-path="refs">
-  <h2>My blog</h2>
-  <ul class="refs">
-    <li><a href="https://constdecimalserrno.dev/posts/3kc/" target="_blank" rel="noopener">3 Key Claude</a> - how a gag gift of three keys became my whole AI workflow. Read this one first.</li>
-    <li><a href="https://constdecimalserrno.dev/posts/tools-i-use/" target="_blank" rel="noopener">Tools I Use</a> - the tools and plugins I use every day. Read it when you want more.</li>
-    <li><a href="https://constdecimalserrno.dev/" target="_blank" rel="noopener">constdecimalserrno.dev</a> - everything else I write.</li>
-  </ul>
-</section>
-
-<section class="slide" data-id="refs-2" data-path="refs">
-  <h2>Matt Pocock's skills, in depth</h2>
-  <ul class="refs">
-    <li><a href="https://www.youtube.com/@mattpocockuk" target="_blank" rel="noopener">Matt Pocock on YouTube</a> - watch the skills used for real.</li>
-    <li><a href="https://www.aihero.dev" target="_blank" rel="noopener">AI Hero</a> - a guide per skill, and a newsletter.</li>
-    <li><a href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">mattpocock/skills</a> - each skill's full text.</li>
-    <li><a href="https://github.com/anthropics/claude-plugins-official" target="_blank" rel="noopener">anthropics/claude-plugins-official</a> - Anthropic's plugin marketplace. Browse it for more.</li>
-  </ul>
-</section>
-
-<section class="slide" data-id="refs-3" data-path="refs">
-  <h2>The rest of the kit</h2>
-  <ul class="refs">
-    <li><a href="https://github.com/DietrichGebert/ponytail" target="_blank" rel="noopener">DietrichGebert/ponytail</a> - <code>ponytail</code>'s levels and commands.</li>
-    <li><a href="https://github.com/Jakeschincariol/arena-skill" target="_blank" rel="noopener">Jakeschincariol/arena-skill</a> - <code>arena</code>, by Jake Schincariol.</li>
-    <li><a href="https://github.com/constdecimals9/system-tui" target="_blank" rel="noopener">constdecimals9/system-tui</a> - <code>system-tui</code> and the statusline.</li>
-    <li><a href="https://github.com/constdecimalserrno/ai-welcome-kit" target="_blank" rel="noopener">constdecimalserrno/ai-welcome-kit</a> - this kit.</li>
-    <li><a href="https://code.claude.com/docs/en/overview" target="_blank" rel="noopener">Claude Code docs</a> - settings, slash commands, plugins and the rest.</li>
-  </ul>
+  <p><strong>That's the whole flow:</strong> a brief, a grilling, a spec, tickets, then builders and reviewers. Your next idea gets the same flow in a new folder. Start with <a href="https://constdecimalserrno.github.io/ai-welcome-kit/guide.html#starting-flow" target="_blank" rel="noopener">the starting flow</a>.</p>
 </section>
 
   </main>
@@ -835,19 +501,17 @@ Start a living doc for the tickets /to-tickets wrote. It's a local project: no s
   <footer class="bar bottom">
     <a class="btn" href="#start" id="back" aria-label="Previous slide">← <span class="sm-hide">Back</span></a>
     <div class="dots" id="dots"></div>
-    <a class="btn primary" href="#rules-1" id="next"><span id="next-label">Next</span> →</a>
+    <a class="btn primary" href="#install-1" id="next"><span id="next-label">Next</span> →</a>
   </footer>
 </div>
 
 <script>
 (function () {
   // Each path: its menu name, the short name in "Install 3 of 6", and the paths to offer after it
+  var GUIDE = "https://constdecimalserrno.github.io/ai-welcome-kit/guide.html";
   var PATHS = {
-    rules:   { name: "Rules of thumb",      short: "Rules",      next: ["install", "kit"] },
-    install: { name: "Install the kit",     short: "Install",    next: ["demo", "kit"] },
-    demo:    { name: "Do the demo (Snake)", short: "Demo",       next: ["kit", "refs"] },
-    kit:     { name: "What's in the kit",   short: "Kit",        next: ["rules", "refs"] },
-    refs:    { name: "References",          short: "References", next: ["rules", "kit"] }
+    install: { name: "Install the kit",     short: "Setup", next: ["demo"] },
+    demo:    { name: "Do the demo (Snake)", short: "Demo",  next: [] }
   };
   var KEY = "ai-welcome-kit-progress";
   var app = document.getElementById("app");
@@ -889,6 +553,9 @@ Start a living doc for the tickets /to-tickets wrote. It's a local project: no s
       a.className = "btn"; a.href = "#" + inPath(n)[0].dataset.id; a.textContent = PATHS[n].name;
       row.appendChild(a);
     });
+    var g = document.createElement("a");
+    g.className = "btn"; g.href = GUIDE + "#first-day"; g.target = "_blank"; g.rel = "noopener"; g.textContent = "Your first day";
+    row.appendChild(g);
     var m = document.createElement("a");
     m.className = "btn"; m.href = "#start"; m.textContent = "Menu";
     row.appendChild(m);
@@ -939,9 +606,9 @@ Start a living doc for the tickets /to-tickets wrote. It's a local project: no s
     var atEnd = !p || i === list.length - 1;
     backBtn.href = "#" + (i > 0 ? list[i - 1].dataset.id : "start");
     backBtn.style.visibility = p ? "visible" : "hidden";
-    nextBtn.href = "#" + (!p ? "rules-1" : atEnd ? "start" : list[i + 1].dataset.id);
-    document.getElementById("next-label").textContent = !p ? "Start with the rules" : atEnd ? "Menu" : "Next";
-    nextBtn.setAttribute("aria-label", !p ? "Start with the rules" : atEnd ? "Back to the menu" : "Next slide");
+    nextBtn.href = "#" + (!p ? "install-1" : atEnd ? "start" : list[i + 1].dataset.id);
+    document.getElementById("next-label").textContent = !p ? "Start" : atEnd ? "Menu" : "Next";
+    nextBtn.setAttribute("aria-label", !p ? "Start" : atEnd ? "Back to the menu" : "Next slide");
     document.getElementById("menu").style.visibility = p ? "visible" : "hidden";
 
     var dots = document.getElementById("dots");
@@ -960,7 +627,7 @@ Start a living doc for the tickets /to-tickets wrote. It's a local project: no s
   }
 
   function renderMenu() {
-    document.querySelectorAll(".path").forEach(function (a) {
+    document.querySelectorAll(".path[data-path]").forEach(function (a) {
       var list = inPath(a.dataset.path);
       var n = list.filter(function (x) { return state.seen[x.dataset.id]; }).length;
       a.querySelector(".p-seen").textContent = n ? n + "/" + list.length + " seen" : list.length + " slides";
@@ -1001,7 +668,6 @@ Start a living doc for the tickets /to-tickets wrote. It's a local project: no s
   }, { passive: true });
 
   app.classList.add("js");
-  // A host that drops the hash can still deep-link with ?s=install-3
-  show(location.hash.slice(1) || new URLSearchParams(location.search).get("s"));
+  show(location.hash.slice(1));
 })();
 </script>
