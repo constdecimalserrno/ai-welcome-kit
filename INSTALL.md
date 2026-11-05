@@ -1,6 +1,6 @@
 # Install (for agents)
 
-**The tutorial comes first.** Before you review this repo or ask anything, do step 1's publish and put the link in your first reply. It changes nothing on this computer.
+**The tutorial comes first.** Before you review this repo or ask anything, do step 1's publish and put the link in your first reply. It changes nothing on this computer. Only if their first message asks to agree before anything happens, answer that first.
 
 Can't run shell commands? You're in a Claude chat, or not in Claude Code. Install and the demo need Claude Code on a Mac or Windows, but the guide works here. Publish `guide.html` as an artifact, or send https://constdecimalserrno.github.io/ai-welcome-kit/guide.html. Then ask what the person does for work, and help them apply the rules marked for everyone and the *Your first day* prompts to it. With no Claude Code, that's the whole path, so don't send them elsewhere.
 
@@ -21,7 +21,7 @@ Slide `#install-1`. Do this first, every time, even if the kit is already instal
 
 Publish `tutorial.html` with your Artifact tool and give the user the link, on its own line. Give it again whenever they change sessions. If that fails or you have no Artifact tool, send https://constdecimalserrno.github.io/ai-welcome-kit/tutorial.html. Say that the slides are follow-along only: they do everything by talking to you here.
 
-Before the question, say in two lines what this needs: a Mac or Windows, Claude Code and a paid plan; the install takes minutes, and the demo takes an afternoon, needs Node and uses a lot of usage.
+Before the question, say in two lines what this needs: a Mac or Windows, Claude Code and a paid plan; the install takes minutes, and the demo takes an afternoon or more, needs Node (a free program that runs JavaScript) and uses about 2M to 3M tokens, so a smaller plan will hit its limit and wait for the reset.
 
 Then ask which path they want: "Which path? *Install the kit*, *Do the demo (Snake)* or *Just read the guide*." Always ask, even when their first message was "set me up": that's how they got here, not a path. Wait for the answer. A free-text answer maps to the closest one: "the tutorial", "the demo" or "all of it" is *Do the demo (Snake)*, "install" or "just the kit" is *Install the kit*, and "the rules", "the cheat sheet" or "what's in it" is *Just read the guide*. Still unsure? Ask once more, with the list.
 
@@ -38,12 +38,12 @@ uname -s; command -v claude; python3 -c 'print("python ok")' || python -c 'print
 ```
 
 - A path for `claude`, `python ok` and a git version are all required. `Darwin` is a Mac; `MINGW` or `MSYS` is Windows. On Windows, if Python is missing, tell the user it's at https://www.python.org, then stop. On a Mac without the Command Line Tools, `python3` and `git` exist but fail to run. If either fails, tell the user to run `xcode-select --install`, then stop. No `claude` means they're running you some other way: point them to https://code.claude.com/docs/en/quickstart, and say it needs a paid Claude plan.
-- `node` is needed for `ponytail` and the demo. If it's missing, tell the user it's at https://nodejs.org. On the demo path, stop until they have it. Otherwise carry on: the installer skips `ponytail`.
+- `node` is needed for `ponytail` and the demo. If it's missing, tell the user to take the LTS installer from https://nodejs.org, then restart Claude Code. On the demo path, stop until they have it. Otherwise carry on: the installer skips `ponytail`.
 - `cargo` is optional, and only used on a Mac. If it's missing (`command not found`), the install skips `system-tui` with a warning and does everything else. Don't install Rust yourself - tell the user it's at https://rustup.rs. If `cargo` is there but errors with "rustup could not choose a version", tell them to run `rustup default stable`.
 
 ## 3. Pick the code folder
 
-Slide `#install-3`. `system-tui` shows disk use for each project under one folder. If the user already told you where they keep their code, pass it with `--code-dir`. Otherwise leave the flag off: the installer reuses the folder from its last run, or else picks the first of `~/code`, `~/src`, `~/Projects`, `~/Developer` and `~/dev` that holds something besides this kit. Don't stop to ask. If it warns that the folder doesn't exist, tell the user, and that they can rerun with `--code-dir <folder>`.
+Slide `#install-3`. `system-tui` shows disk use for each project under one folder. If the user already told you where they keep their code, pass it with `--code-dir`. On *Do the demo (Snake)*, otherwise pass `--code-dir src`, where the demo lives. Otherwise leave the flag off: the installer reuses the folder from its last run, or else picks the first of `~/code`, `~/src`, `~/Projects`, `~/Developer` and `~/dev` that holds something besides this kit. Don't stop to ask. If it warns that the folder doesn't exist, tell the user, and that they can rerun with `--code-dir <folder>`.
 
 ## 4. Run the installer
 
@@ -51,11 +51,11 @@ Slide `#install-4`. This is the step that writes to `~/.claude`. Tell the user, 
 
 - Copy two skills into `~/.claude/skills`.
 - Clone the `arena` skill from https://github.com/Jakeschincariol/arena-skill into `~/.claude/ai-welcome-kit/arena-skill`, and link it in as `~/.claude/skills/arena`. A rerun pulls it.
-- Install three plugins: `mattpocock-skills`, `frontend-design` and `ponytail`. `ponytail`'s hooks then run in every project, and it logs a cost line per turn to `~/.config/ponytail/band/`, on this computer.
+- Install three plugins: `mattpocock-skills`, `frontend-design` and `ponytail`. `ponytail`'s hooks then run in every project and change how Claude writes code in all their work, not just the demo. It logs each turn's cost, project name and task name to `~/.config/ponytail/band/`. That log stays on this computer. `/ponytail default off` stops it steering Claude. The demo's review steps use its skills, so without it skip those steps and slide `#demo-18`.
 - On a Mac: clone https://github.com/constdecimals9/system-tui (the kit author's other account), add its statusline, and set `statusLine` in `~/.claude/settings.json`, unless they already have one.
 - On a Mac: build `system-tui` if Rust is installed, which can add `~/.cargo/bin` to PATH in their shell rc file.
 
-Anything it replaces is backed up first. Whose code each piece is, and how to undo it, is in the README's safety section and at https://constdecimalserrno.github.io/ai-welcome-kit/guide.html#safe: point them there if they ask. Ask "OK to run it?" and wait. If they want less, add `--skip <pieces>` (see `bash install.sh --help`).
+Plugins add entries to `settings.json`, which gets reformatted. Anything it replaces is backed up first. Whose code each piece is, and how to undo it, is in the README's safety section and at https://constdecimalserrno.github.io/ai-welcome-kit/guide.html#safe: point them there if they ask. Ask "OK to run it?" and wait. If they want less, add `--skip <pieces>` (see `bash install.sh --help`).
 
 ```sh
 bash install.sh                       # or: bash install.sh --code-dir <folder> --skip arena,system-tui

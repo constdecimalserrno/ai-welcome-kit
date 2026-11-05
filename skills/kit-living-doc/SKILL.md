@@ -46,7 +46,7 @@ An unreachable link goes to Respin; a hold goes to Hold.
 The link is unreachable when `read` fails, the read shows you can't edit the page, or a publish is refused for lack of edit access. A Claude account switch is the usual cause.
 
 1. **Fold in** whatever the old page still lets you read.
-2. **Publish fresh:** render the local mirror, then publish it without `url`, with `capabilities: {"db": {}, "user": {"scopes": ["profile"]}, "comments": {"composer_only": true}}` and icon `map`.
+2. **Publish fresh:** render the local mirror, then publish it without `url`, with `capabilities: {"db": {}, "user": {"scopes": ["profile"]}, "comments": {"composer_only": true}}` and icon `map`. If your publish tool takes no `capabilities`, declare them with your capabilities tool right after publishing.
 3. **Record it:** replace the link in CLAUDE.md's "Living doc" section, and add `- YYYY-MM-DD: respun as <new link>, was <old link>` under "Synced" in `.scratch/<effort>/pending-artifact-sync.md`.
 4. **Tell the user** the new link, that Contributor access needs re-sharing, and that anything never folded in stays on the old page.
 

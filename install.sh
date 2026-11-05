@@ -200,7 +200,8 @@ wanted() {  # wanted <plugin>: not skipped, and for ponytail, Node is here
 for row in "mattpocock-skills claude-plugins-official anthropics/claude-plugins-official" "frontend-design claude-plugins-official anthropics/claude-plugins-official" "ponytail ponytail DietrichGebert/ponytail"; do
   set -- $row
   wanted "$1" || continue
-  if has marketplace "$2"; then echo "    marketplace $2 already added"; continue; fi
+  if has marketplace "$2"; then case "${seen:-}" in *" $2 "*) ;; *) echo "    marketplace $2 already added" ;; esac; continue; fi
+  seen="${seen:-} $2 "
   snapshot_settings
   if claude plugin marketplace add "$3" >/dev/null; then echo "    added marketplace $2 ($3)"; added "marketplace $2"
   else fail "couldn't add marketplace $3"; fi
@@ -423,11 +424,11 @@ if [ "$TUI" = 1 ] && [ -z "$RC" ]; then
 elif [ "$TUI" = 1 ]; then
   check "system-tui in a new shell" "new_shell_finds"
 else
-  dash "system-tui skipped (see warnings above)"
+  dash "system-tui skipped"
 fi
 echo
 if [ "$FAILS" = 0 ]; then
-  echo "Done. Restart Claude Code so it loads the new skills, plugins and statusline."
+  echo "Done. Restart Claude Code so it loads what was installed."
 else
   echo "Done with $FAILS problem(s) above. Fix them and run this again - it's safe to rerun."
   exit 1

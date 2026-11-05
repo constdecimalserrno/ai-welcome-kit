@@ -10,7 +10,7 @@ This is how I set up Claude Code, packaged so you can have it in one sitting. Cl
 
 - **To read:** nothing. The [guide](https://constdecimalserrno.github.io/ai-welcome-kit/guide.html) works anywhere, including Windows and a plain Claude chat.
 - **To install:** a Mac or Windows, [Claude Code](https://code.claude.com/docs/en/quickstart) and a paid Claude plan. It takes a few minutes and very little usage. Windows also needs [Git](https://git-scm.com) and [Python](https://www.python.org), and leaves out `system-tui` and the statusline, which are Mac only.
-- **For the Snake demo:** the install, plus [Node](https://nodejs.org). It takes an afternoon. In my test, the building alone took about 50 minutes and 0.8M tokens, so check your plan's usage first.
+- **For the Snake demo:** the install, plus [Node](https://nodejs.org). It takes an afternoon or more. In my tests the whole demo took about 2M to 3M tokens, and the building alone 2 to 4 hours. On a smaller plan, expect to hit your usage limit and wait for it to reset. Nothing is lost when that happens.
 - **Optional:** [Rust](https://rustup.rs) for the dashboard on a Mac. Without Rust you get everything but `system-tui`. Without Node you also go without `ponytail`.
 
 ## What Claude does
@@ -48,8 +48,8 @@ You're running other people's code, so here's whose it is.
 
 - **Mine:** `kit-living-doc`, `kit-ticket-runbook`, and `system-tui` with the statusline. Those last two live on my other GitHub account, [constdecimals9](https://github.com/constdecimals9/system-tui). Both accounts are me.
 - **Other people's:** `arena` (Jake Schincariol), `mattpocock-skills` (Matt Pocock), `frontend-design` (Anthropic) and `ponytail` (Dietrich Gebert).
-- **Runs by itself:** `ponytail`'s hooks run in every project, on every session and prompt, add instructions, and log a cost line per turn to `~/.config/ponytail/band/` on your computer. The statusline runs every 10 seconds. The rest only run when used.
-- **What changes:** `~/.claude`, plus one PATH line in your shell file if `system-tui` needs it. Anything replaced is backed up to `~/.claude/backups/` first. Skills and a statusline you already have stay, unless you ask.
-- **Not pinned:** everything tracks its latest version, so a rerun gets whatever its author has published since.
+- **Runs by itself:** `ponytail`'s hooks run in every project, on every session and prompt, add instructions, and change how Claude writes code in all your work. Each turn logs its cost, with the project name and task name, to `~/.config/ponytail/band/`. That log stays on your computer. Type `/ponytail default off` to stop it steering Claude. The demo uses its review skills, so skipping it means skipping those steps. The statusline runs every 10 seconds. The rest only run when used.
+- **What changes:** `~/.claude`, including plugin entries in `settings.json`, which gets reformatted. Also `~/.config/ponytail` and `~/.cargo/bin`, plus one PATH line in your shell file if `system-tui` needs it. Anything replaced is backed up to `~/.claude/backups/` first. Skills and a statusline you already have stay, unless you ask.
+- **Not pinned:** a rerun gets whatever's been published since.
 - **Leave things out:** tell Claude which pieces you don't want.
 - **Undo it:** ask Claude to run `uninstall.sh` from the kit. It removes what the kit added and keeps what you had. The installer is safe to run twice.
