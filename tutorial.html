@@ -408,7 +408,7 @@ Start a living doc for the tickets /to-tickets wrote. It's a local project: no s
   <dl class="step">
     <dt>Claude does</dt><dd>Starts the game for you.</dd>
     <dt class="you">You type</dt><dd><pre class="term copyable">Start the game on a local server, open it in my browser, and tell me how to play.</pre></dd>
-    <dt>You see</dt><dd>Your game. Steer with the arrow keys, then drag the step slider to go back over any moment.</dd>
+    <dt>You see</dt><dd>Your game. Steer with the arrow keys. Every game writes its moves to the moves view, so drag the step slider or click a move to go back over any moment, edit a move to see what would have happened, or export the replay.</dd>
     <dt>Worked if</dt><dd>You've played a game you built. Leave it open for the next slide.</dd>
   </dl>
 </section>
@@ -420,7 +420,7 @@ Start a living doc for the tickets /to-tickets wrote. It's a local project: no s
   <dl class="step">
     <dt class="you">1. Describe it</dt><dd><pre class="term copyable">Have a subagent (Opus, low) turn this into strategies/my-idea.js, with a decide(state) function: [how you'd play, in your own words]</pre></dd>
     <dt class="you">2. Upload it</dt><dd>In the game, press <kbd>Strategy file</kbd> and pick <code>strategies/my-idea.js</code>.</dd>
-    <dt class="you">3. Try it</dt><dd>Press <kbd>Play</kbd> and watch. When it dies, drag the step slider back to where it went wrong.</dd>
+    <dt class="you">3. Try it</dt><dd>Press <kbd>Play</kbd> and watch. When it dies, drag the step slider or click through the moves view to find where it went wrong.</dd>
     <dt class="you">4. Go again</dt><dd><pre class="term copyable">At step [N] it [what went wrong]. Fix that in strategies/my-idea.js.</pre><span>Upload it again and replay the same seed. Then try other seeds.</span></dd>
     <dt>Worked if</dt><dd>You have at least two strategies in <code>strategies/</code>, and one reaches score 20, or you know why it can't.</dd>
   </dl>
