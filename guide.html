@@ -118,7 +118,7 @@ dl.words dd { margin: 0; }
 <p>Claude Code is Claude working on your own computer. These only apply there.</p>
 <ol class="rules" style="--start: 11">
   <li id="auto-mode"><h3>Almost always run in auto mode.</h3>
-    <p>The faster you trust Claude, the faster you get your work done. Press <kbd>Shift+Tab</kbd> to cycle permission modes until it says auto, or start with <code>claude --permission-mode auto</code>.</p>
+    <p>The faster you trust Claude, the faster you get your work done. Press <kbd>Shift+Tab</kbd> to cycle permission modes until it says auto.</p>
     <p class="warn">Auto mode acts without asking each time. Keep it away from real work data or anything you can't undo, until you know how it behaves.</p></li>
   <li id="opus"><h3>Use Opus 5.5.</h3>
     <p>Low or medium effort for actual code implementation. High or xhigh for planning, wayfinding and grilling. <code>/model</code> and <code>/effort</code> change it mid-session.</p></li>
@@ -139,7 +139,7 @@ dl.words dd { margin: 0; }
   <li id="stay-awake"><h3>Leave <code>system-tui</code> open. <span class="tag">kit</span></h3>
     <p>It doubles as caffeine. It keeps your Mac awake while it runs, so you can walk away and leave your agents working. No Rust, so no <code>system-tui</code>? Run <code>caffeinate -d</code> in a spare terminal tab instead. On Windows, set sleep to Never while agents work.</p></li>
   <li id="name-sessions"><h3>Name your sessions.</h3>
-    <p><code>/rename &lt;name&gt;</code>, or start with <code>claude -n &lt;name&gt;</code>, so you can tell which one is doing what. I name them after their folder or their problem.</p></li>
+    <p><code>/rename &lt;name&gt;</code>, so you can tell which one is doing what. I name them after their folder or their problem.</p></li>
   <li id="starting-flow"><h3>The starting flow for a small problem. <span class="tag">kit</span></h3>
     <ol class="flow">
       <li>A new workspace.</li>
@@ -217,7 +217,7 @@ dl.words dd { margin: 0; }
   <li><strong>Leave it open.</strong> It keeps your Mac awake while it runs, so you can walk away and leave your agents working.</li>
   <li>The disk panel scans your code folder. The first scan takes a couple of minutes.</li>
   <li>Plan usage fills once a Claude Code session is open - the statusline feeds it.</li>
-  <li>Other folder? <code>bash install.sh --code-dir &lt;folder&gt;</code></li>
+  <li>Other folder? Ask Claude to change it.</li>
   <li>Not found? Open a new terminal, so it picks up <code>~/.cargo/bin</code>.</li>
 </ul>
 
@@ -244,8 +244,8 @@ dl.words dd { margin: 0; }
   <li><strong>What changes:</strong> <code>~/.claude</code>, plus one PATH line in your shell file if <code>system-tui</code> needs it.</li>
   <li><strong>Backups:</strong> anything replaced goes to <code>~/.claude/backups/</code> first. It keeps skills and a statusline you already have, unless you ask.</li>
   <li><strong>Not pinned:</strong> everything tracks its latest version, so a rerun gets whatever its author has published since. Read it first if that matters to you.</li>
-  <li><strong>Leave things out:</strong> <code>bash install.sh --skip arena,ponytail</code></li>
-  <li><strong>Undo it:</strong> <code>bash ~/src/ai-welcome-kit/uninstall.sh</code> removes what the kit added and keeps what you had.</li>
+  <li><strong>Leave things out:</strong> tell Claude which pieces you don't want.</li>
+  <li><strong>Undo it:</strong> ask Claude to run <code>uninstall.sh</code> from the kit. It removes what the kit added and keeps what you had.</li>
 </ul>
 
 <h2 id="words">Words you'll see</h2>

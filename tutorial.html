@@ -219,7 +219,7 @@ v24.1.0</pre></dd>
     <dt>Claude does</dt><dd>Nothing, unless you name a folder. For <code>system-tui</code>'s disk panel, it reuses your last pick, else the first of <code>~/code</code>, <code>~/src</code>, <code>~/Projects</code>, <code>~/Developer</code>, <code>~/dev</code> with something in it besides this kit.</dd>
     <dt class="you">You type</dt><dd>Nothing, or where your code lives.</dd>
     <dt>You see</dt><dd><code>project folder ~/src</code> at step <code>6/6</code>, if <code>system-tui</code> builds.</dd>
-    <dt>Worked if</dt><dd>It's your code folder. Change it with <code>bash install.sh --code-dir &lt;folder&gt;</code>.</dd>
+    <dt>Worked if</dt><dd>It's your code folder. If it isn't, tell Claude which one.</dd>
   </dl>
 </section>
 
@@ -254,10 +254,9 @@ Verify:
   <h2>Restart and wrap up</h2>
   <dl class="step">
     <dt>Claude does</dt><dd>Tells you what installed, what got skipped and where backups went. Then you restart Claude Code, so it loads everything. <code>/exit</code> only closes this session: nothing is lost, and this page's link keeps working.</dd>
-    <dt class="you">You type</dt><dd><pre class="term copyable">/exit
-claude --model opus --effort medium</pre><span>Doing the demo? Just <code>/exit</code>: demo-2 starts your next session.</span></dd>
+    <dt class="you">You type</dt><dd><pre class="term copyable">/exit</pre><span>Then in your terminal:</span><pre class="term copyable">claude</pre><span>Then, in Claude:</span><pre class="term copyable">/model opus</pre><pre class="term copyable">/effort medium</pre><span>Doing the demo? Skip all this and go to the next slide: demo-2 has Claude set up your workspace first.</span></dd>
     <dt>You see</dt><dd>The statusline at the bottom, like <code>Opus·medium │ ctx 3% …</code></dd>
-    <dt>Worked if</dt><dd>The statusline shows, and typing <kbd>/</kbd> lists <code>kit-living-doc</code>, <code>kit-ticket-runbook</code> and <code>arena</code>.</dd>
+    <dt>Worked if</dt><dd>The statusline shows (on a Mac), and typing <kbd>/</kbd> lists <code>kit-living-doc</code>, <code>kit-ticket-runbook</code> and <code>arena</code>.</dd>
   </dl>
 </section>
 
@@ -265,10 +264,10 @@ claude --model opus --effort medium</pre><span>Doing the demo? Just <code>/exit<
   <h2>You're done when</h2>
   <ul class="checks">
     <li><label><input type="checkbox" id="done-1"><span>Every <code>Verify:</code> line says <code>[ok]</code> or <code>[--]</code></span></label></li>
-    <li><label><input type="checkbox" id="done-2"><span>You restarted Claude Code and the statusline shows</span></label></li>
+    <li><label><input type="checkbox" id="done-2"><span>You restarted Claude Code, and on a Mac the statusline shows</span></label></li>
     <li><label><input type="checkbox" id="done-3"><span>Typing <kbd>/</kbd> lists <code>kit-living-doc</code>, <code>kit-ticket-runbook</code> and <code>arena</code></span></label></li>
     <li><label><input type="checkbox" id="done-4"><span>You've tried something from <a href="https://constdecimalserrno.github.io/ai-welcome-kit/guide.html#first-day" target="_blank" rel="noopener">Your first day</a></span></label></li>
-    <li><label><input type="checkbox" id="done-5"><span><code>system-tui</code> runs in a new terminal, if it was built</span></label></li>
+    <li><label><input type="checkbox" id="done-5"><span><code>system-tui</code> opens in a spare terminal tab, if it was built</span></label></li>
   </ul>
 </section>
 
@@ -287,14 +286,11 @@ claude --model opus --effort medium</pre><span>Doing the demo? Just <code>/exit<
 
 <section class="slide" data-id="demo-2" data-path="demo">
   <h2>Make the workspace</h2>
-  <div class="chips"><span class="chip">terminal</span><span class="chip">starts at effort: high</span></div>
+  <div class="chips"><span class="chip">starts at effort: high</span></div>
   <dl class="step">
-    <dt>Claude does</dt><dd>Nothing. Type these in your terminal (Git Bash on Windows) - it's your restart after install.</dd>
-    <dt class="you">You type</dt><dd><span>Run <code>git config user.name</code>. If it prints nothing, set your name first:</span><pre class="term copyable">git config --global user.name "Your Name"
-git config --global user.email you@example.com</pre><span>Then, swapping <code>~/src</code> for your own code folder if you have one:</span><pre class="term copyable">mkdir -p ~/src/snake/context &amp;&amp; cd ~/src/snake
-cp ~/src/ai-welcome-kit/examples/snake/BRIEF.md .
-git init -q &amp;&amp; git commit -q --allow-empty -m init
-claude -n snake --model opus --effort high</pre></dd>
+    <dt>Claude does</dt><dd>Makes the project folder, copies in the brief and starts a git repo, usually right after the install. If git doesn't know your name yet, it asks.</dd>
+    <dt class="you">You type</dt><dd><span>If Claude hasn't done it yet:</span><pre class="term copyable">Set up my Snake workspace, following step 7 of ~/src/ai-welcome-kit/INSTALL.md.</pre><span>Then restart in the new folder. This is your restart after install:</span><pre class="term copyable">/exit</pre><span>In your terminal:</span><pre class="term copyable">cd ~/src/snake
+claude</pre><span>Then, in Claude:</span><pre class="term copyable">/rename snake</pre><pre class="term copyable">/model opus</pre><pre class="term copyable">/effort high</pre></dd>
     <dt>You see</dt><dd>Your next session, named <code>snake</code>, in its own folder.</dd>
     <dt>Worked if</dt><dd>The statusline says <code>Opus·high</code> (no statusline on Windows). <code>context/</code> stays empty for now - it's for this project's reference material.</dd>
   </dl>

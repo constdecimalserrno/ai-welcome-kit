@@ -22,18 +22,10 @@ This is how I set up Claude Code, packaged so you can have it in one sitting. Cl
 3. Ask which path you want: *Install the kit*, *Do the demo (Snake)* or *Just read the guide*.
 4. Install the kit if you picked that, asking before it changes `~/.claude`. On the demo, you then build a small Snake game with it.
 
-I start Claude Code at medium effort: `claude --model opus --effort medium`.
+The only thing you type in a terminal is `claude`, plus one `cd` for the demo. Claude does the rest: tell it what you want.
 
 **In a Claude chat** (claude.ai, or a chat in the desktop app), nothing gets installed. Claude sends you the guide and helps you apply it to your own work.
 
-Rather do it yourself? Open the [tutorial](https://constdecimalserrno.github.io/ai-welcome-kit/tutorial.html), then:
-
-```sh
-git clone https://github.com/constdecimalserrno/ai-welcome-kit.git ~/src/ai-welcome-kit
-cd ~/src/ai-welcome-kit && bash install.sh
-```
-
-On Windows, run those in Git Bash.
 
 ## What you get
 
@@ -57,7 +49,7 @@ You're running other people's code, so here's whose it is.
 - **Mine:** `kit-living-doc`, `kit-ticket-runbook`, and `system-tui` with the statusline. Those last two live on my other GitHub account, [constdecimals9](https://github.com/constdecimals9/system-tui). Both accounts are me.
 - **Other people's:** `arena` (Jake Schincariol), `mattpocock-skills` (Matt Pocock), `frontend-design` (Anthropic) and `ponytail` (Dietrich Gebert).
 - **Runs by itself:** `ponytail`'s hooks run in every project, on every session and prompt, add instructions, and log a cost line per turn to `~/.config/ponytail/band/` on your computer. The statusline runs every 10 seconds. The rest only run when used.
-- **What changes:** `~/.claude`, plus one PATH line in your shell file if `system-tui` needs it. Anything replaced is backed up to `~/.claude/backups/` first. Skills and a statusline you already have stay, unless you ask (`--force-skills`, `--force-statusline`).
+- **What changes:** `~/.claude`, plus one PATH line in your shell file if `system-tui` needs it. Anything replaced is backed up to `~/.claude/backups/` first. Skills and a statusline you already have stay, unless you ask.
 - **Not pinned:** everything tracks its latest version, so a rerun gets whatever its author has published since.
-- **Leave things out:** `bash install.sh --skip arena,ponytail`
-- **Undo it:** `bash ~/src/ai-welcome-kit/uninstall.sh` removes what the kit added and keeps what you had. The installer is safe to run twice.
+- **Leave things out:** tell Claude which pieces you don't want.
+- **Undo it:** ask Claude to run `uninstall.sh` from the kit. It removes what the kit added and keeps what you had. The installer is safe to run twice.

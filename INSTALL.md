@@ -4,7 +4,7 @@
 
 Can't run shell commands? You're in a Claude chat, or not in Claude Code. Install and the demo need Claude Code on a Mac or Windows, but the guide works here. Publish `guide.html` as an artifact, or send https://constdecimalserrno.github.io/ai-welcome-kit/guide.html. Then ask what the person does for work, and help them apply the rules marked for everyone and the *Your first day* prompts to it. With no Claude Code, that's the whole path, so don't send them elsewhere.
 
-You are setting up the AI Welcome Kit on this computer: three skills (`kit-living-doc`, `kit-ticket-runbook` and `arena`), three plugins, and on a Mac `system-tui` and a statusline. `install.sh` does every step and is safe to rerun. On Windows your Bash tool is Git Bash, so every command below runs as written, and the installer leaves out `system-tui` and the statusline.
+You are setting up the AI Welcome Kit on this computer: three skills (`kit-living-doc`, `kit-ticket-runbook` and `arena`), three plugins, and on a Mac `system-tui` and a statusline. `install.sh` does every step and is safe to rerun. People never run these commands: you do. On Windows your Bash tool is Git Bash, so every command below runs as written, and the installer leaves out `system-tui` and the statusline.
 
 ## How to run this
 
@@ -89,16 +89,24 @@ Slide `#install-6`. Tell the user:
 - What installed, and anything skipped or failed, with the fix.
 - Anything replaced is backed up under `~/.claude/backups/ai-welcome-kit-<timestamp>/`. If the installer replaced an existing `statusLine`, say so.
 - If it added `~/.cargo/bin` to their shell rc (`~/.zshrc`, a bash profile, or fish's `config.fish`), say which file, and that new terminals pick it up. For any other shell it only warns: tell them to add `~/.cargo/bin` to PATH themselves.
-- **Restart Claude Code** to load the skills, plugins and statusline. On *Do the demo (Snake)*, that restart is step 7's new session: `/exit`, then run slide `#demo-2`. Don't restart twice.
+- **Restart Claude Code** to load the skills, plugins and statusline. On *Do the demo (Snake)*, don't restart yet: step 7 does it once, in the new folder.
 - `/exit` only closes this session. Nothing is lost, the tutorial link keeps working, and a local copy is at `~/src/ai-welcome-kit/tutorial.html`. The next session starts fresh: on the demo the slides carry them, and otherwise it's enough to say "I just installed the AI Welcome Kit".
-- Unless it was skipped, run `system-tui` in a spare terminal tab; `q` quits.
+- Unless it was skipped, `system-tui` opens in a spare terminal tab; `q` quits. It's optional.
 - Point them to the checklist slide, `#install-done` ("You're done when").
 
 ## 7. Start the Snake project
 
 Only on the *Do the demo (Snake)* path. The project is a very simple web Snake game, scripted and played from fixed seeds, then analyzed to find the fastest strategy. It uses nearly every skill in the kit, and follows the starting flow: set up, grill, spec, tickets, then one subagent per ticket. The demo slides, `#demo-1` to `#demo-19`, give each step its skill, its effort and the exact prompt to type.
 
-Say this in the same message as step 6, since `/exit` ends this session. Then they run slide `#demo-2`, "Make the workspace", in their terminal (Git Bash on Windows). It makes `~/src/snake`, copies in `examples/snake/BRIEF.md`, and starts their next session there, at high effort. That session is the restart. Don't build the game yourself - they build it, in that session.
+Run this yourself, in the same turn as step 6: people only type `claude`, never setup commands. This is slide `#demo-2`, "Make the workspace". If `git config user.name` or `git config user.email` prints nothing, ask for them and set them with `git config --global`. Use their own code folder if they named one, otherwise `~/src`:
+
+```sh
+mkdir -p ~/src/snake/context && cd ~/src/snake
+cp ~/src/ai-welcome-kit/examples/snake/BRIEF.md .
+git init -q && git commit -q --allow-empty -m init
+```
+
+Then give them the tutorial link again, and tell them to `/exit`, run `cd ~/src/snake` and `claude`, then type `/rename snake`, `/model opus` and `/effort high`. That session is the restart. Don't build the game yourself - they build it, in that session.
 
 ## 8. A first thing to do
 
