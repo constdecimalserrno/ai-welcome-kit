@@ -1,11 +1,11 @@
 ---
-name: ticket-runbook
+name: kit-ticket-runbook
 description: Ticket runbook: the 13 steps every ticket runs (the living doc's playbook), from research and plan through PR, human sign-off and a solo deploy to monitoring and close, under the golden rules for code. Use whenever you work a ticket.
 ---
 
 # Ticket runbook
 
-Every ticket runs these 13 steps, in order. The ticket's `## Rollout` in its living doc tracks them: tick a step `- [x]` once its done-line holds, and mark one that can't apply `- [-] … (n/a: why)`, such as no deploy for a docs-only change, instead of skipping it silently. Every step also gets a dated line in the ticket's `## Log`, questions go in `## Open questions` so anyone can answer them, and the living doc is synced. A ticket with no `## Rollout`, like a `/to-tickets` file, gets one first: append `## Rollout` with the 13 steps below as `- [ ]` lines.
+Every ticket runs these 13 steps, in order. The ticket's `## Rollout` in its living doc tracks them: tick a step `- [x]` once its done-line holds, and mark one that can't apply `- [-] … (n/a: why)`, such as no deploy for a docs-only change, instead of skipping it silently. Every step also gets a dated line in the ticket's `## Log`, written by whoever ran the step (so the reviewer writes step 8's), `## Brief` is written at the start and updated at the close (the `kit-living-doc` skill shows its shape), questions go in `## Open questions` so anyone can answer them, and the living doc is synced. A ticket with no `## Rollout`, like a `/to-tickets` file, gets one first: append `## Rollout` with the 13 steps below as `- [ ]` lines.
 
 **Test seams come from the spec.** When the ticket's spec has Testing Decisions (`/to-spec` writes them), those are the seams `/tdd` would agree with the user, so a subagent doesn't stop to ask.
 
@@ -18,6 +18,10 @@ Every ticket runs these 13 steps, in order. The ticket's `## Rollout` in its liv
 **Branches**, in a repo with a remote, are `<prefix>/<NN-slug>`, where `<prefix>` is the user's branch prefix from their global CLAUDE.md. If it names none, ask once.
 
 **No remote, or local by choice?** A local-only repo (`git remote` prints nothing), or one whose CLAUDE.md says tickets land on local `main`, has no PR to open and nothing to deploy. Skip steps 2, 7, 9, 11 and 12, and mark each `- [-] … (n/a: no remote)`. Work on local `main`, so `/implement`'s "commit to the current branch" lands there; tickets that run in parallel must touch separate files. Step 8's correctness and spec reviews still run; its live-data review is n/a with no prod data or live state, so mark it `n/a: no prod data` in its review file (step 4 already wrote up the blast radius). Step 10 is done once the commits are on local `main`, and step 13 closes the ticket once its tests pass, it's reviewed and it's merged to local `main`. No branch prefix or project settings needed. Any other repo runs every step.
+
+**Commit order on a local ticket.** The builder keeps its work uncommitted through steps 3 to 6, so step 3's code review and step 4's stash proof both see it, and commits once after step 6. Fixes from step 8 go in a new commit. New code has nothing to stash: failing first is the proof, so skip the revert.
+
+**Tiny ticket?** A change of a few lines with one obvious test doesn't need the full weight. One builder at low effort, a three-line plan.md (problem, fix, test), and a reviewer who runs only `/code-review`. Everything else stands: test first, and never review your own work.
 
 ## Steps
 
@@ -49,7 +53,7 @@ Every ticket runs these 13 steps, in order. The ticket's `## Rollout` in its liv
 
 ## Every step
 
-- **Scratch files are per ticket, inside the project.** Every agent briefed on a ticket keeps its scripts and data under the ticket's `work/<NN-slug>/research/`, or a gitignored `tmp/<NN-slug>/` in the project, and never in `/tmp` or a shared scratch root. Agents running in parallel otherwise overwrite each other's files. Never overwrite, move or delete a file your ticket doesn't own, and never `mv` onto a path that already exists. Name the scratch folder in every brief.
+- **Scratch files are per ticket, inside the project.** Every agent briefed on a ticket keeps its scripts and data under the ticket's `work/<NN-slug>/research/`, or a gitignored `tmp/<NN-slug>/` in the project, and never in `/tmp` or a shared scratch root. Agents running in parallel otherwise overwrite each other's files. Test runners search those folders too (a bare `node --test` finds `*.test.js` under `tmp/`), so don't leave test-named files there. Never overwrite, move or delete a file your ticket doesn't own, and never `mv` onto a path that already exists. Name the scratch folder in every brief.
 - **Research before asking a human.** Before setting `Needs human:` or adding an open question, try to answer it yourself from the code, data, docs and earlier logs. Allow up to three research rounds. Log each round in the ticket. Flag a human only if it's still unanswered after three rounds, or if it's inherently human: approvals, merges, deploys, prod writes, spend, or a requester's intent that no data shows. Otherwise use your best judgment, log the call and its evidence, and move on.
 - **Whenever a step needs a human**, set `Needs human: <what, in plain words>` near the top of the ticket, and the living doc is synced. It flags the ticket in red on its tab and in the overview. Clear the line once it's handled.
 

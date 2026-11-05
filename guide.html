@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Welcome Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,600..800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #f1f3ef; --surface: #fbfcfa; --fg: #18201c; --muted: #566159; --line: #d5dbd4;
+  --accent: #0d6b5c; --accent-soft: #dcebe6; --warn: #8a4b00; --term-bg: #141a17; --term-fg: #dbe4de; --term-dim: #8b9890;
+  --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101412; --surface: #171d1a; --fg: #e4ebe6; --muted: #9aa69f; --line: #2c3631;
+    --accent: #5ccfb8; --accent-soft: #1d302b; --warn: #f0b45e; --term-bg: #090c0b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101412; --surface: #171d1a; --fg: #e4ebe6; --muted: #9aa69f; --line: #2c3631;
+  --accent: #5ccfb8; --accent-soft: #1d302b; --warn: #f0b45e; --term-bg: #090c0b;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 1.0625rem/1.55 var(--font-body); }
+a { color: var(--accent); text-underline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+code, kbd { font: 0.86em var(--font-mono); background: var(--accent-soft); padding: 0.05em 0.35em; border-radius: 4px; overflow-wrap: anywhere; font-variant-ligatures: none; }
+.wrap { max-width: 46rem; margin-inline: auto; padding: 32px 16px 64px; }
+h1, h2, h3 { font-family: var(--font-display); font-stretch: 82%; font-weight: 750; line-height: 1.1; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+h1 { font-size: clamp(2.1rem, 1.5rem + 3vw, 3rem); }
+h2 { font-size: clamp(1.6rem, 1.3rem + 1.5vw, 2.1rem); margin-top: 56px; }
+h3 { font-size: 1.25rem; margin-top: 28px; }
+p { margin: 10px 0 0; }
+.lede { color: var(--muted); }
+.jump { position: sticky; top: 0; z-index: 1; background: var(--bg); border-bottom: 1px solid var(--line); }
+.jump div { max-width: 46rem; margin-inline: auto; padding: 10px 16px; display: flex; gap: 6px 16px; overflow-x: auto; white-space: nowrap; font: 500 0.82rem var(--font-mono); }
+ol.rules { list-style: none; counter-reset: rule var(--start, 0); margin: 16px 0 0; padding: 0; display: grid; gap: 18px; }
+ol.rules > li { counter-increment: rule; display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); column-gap: 8px; }
+ol.rules > li::before { content: counter(rule); font: 800 1.7rem/1.1 var(--font-display); font-stretch: 75%; color: var(--accent); }
+ol.rules > li > * { grid-column: 2; }
+ol.rules h3 { margin: 0; font-size: 1.2rem; }
+ol.flow { margin: 8px 0 0; padding-left: 1.5em; }
+ul { margin: 10px 0 0; padding-left: 1.2em; }
+li + li { margin-top: 4px; }
+ol.rules > li + li { margin-top: 0; }
+.tag { font: 500 0.72rem var(--font-mono); color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px; white-space: nowrap; vertical-align: 2px; }
+.warn { color: var(--warn); }
+pre { margin: 10px 0 0; background: var(--term-bg); color: var(--term-fg); border-radius: 8px; padding: 12px 14px; font: 0.84rem/1.55 var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; font-variant-ligatures: none; }
+pre.paste { user-select: all; -webkit-user-select: all; cursor: copy; }
+pre .dim { color: var(--term-dim); }
+.tbl { overflow-x: auto; margin-top: 10px; }
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px 8px 0; border-bottom: 1px solid var(--line); }
+th { font: 500 0.74rem var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+td:first-child code { white-space: nowrap; overflow-wrap: normal; }
+dl.words { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 8px 16px; margin: 14px 0 0; }
+dl.words dt { font-weight: 700; }
+dl.words dd { margin: 0; }
+@media (max-width: 560px) { dl.words { grid-template-columns: minmax(0, 1fr); gap: 0; } dl.words dd { margin-bottom: 10px; } }
+</style>
+</head>
+<body>
+<nav class="jump" aria-label="On this page"><div>
+  <a href="#first-day">First day</a><a href="#rules">Rules</a><a href="#code-rules">Claude Code</a><a href="#kit">The kit</a><a href="#safe">Safety</a><a href="#words">Words</a><a href="#refs">References</a>
+</div></nav>
+<main class="wrap">
+<h1>AI Welcome Guide</h1>
+<p class="lede">How I use Claude: what to try first, my rules of thumb, and what's in the kit. It's all on one page so you can come back to it. Words you don't know are <a href="#words">explained at the bottom</a>.</p>
+<p>Want to install the kit or build the Snake demo? That's the <a href="https://constdecimalserrno.github.io/ai-welcome-kit/tutorial.html">step-by-step tutorial</a>.</p>
+
+<h2 id="first-day">Your first day</h2>
+<p>Pick one and paste it into Claude, in chat or in Claude Code. None of them need the kit. Swap in your own details.</p>
+<pre class="paste">I work as [your job]. Ask me a few questions about my week, then name three things you could take off my plate.</pre>
+<pre class="paste">Here's something I redo by hand every week: [attach it or describe it]. Show me how you'd do it, and what you'd need from me.</pre>
+<pre class="paste">Make a one-page explainer of [something you've been meaning to understand], for someone new to it. Then quiz me on it.</pre>
+<pre class="paste">Here's an email I've been putting off: [paste it]. Draft a reply, then ask me what you got wrong.</pre>
+<p class="warn">Work data? Check your employer's rules on AI tools before you paste it in.</p>
+
+<h2 id="rules">Rules of thumb for everyone</h2>
+<p>These work anywhere, in a plain Claude chat too. <span class="tag">kit</span> marks the part that needs the kit installed.</p>
+<ol class="rules">
+  <li id="ask-claude"><h3>Don't know what you don't know? Ask Claude.</h3>
+    <p>Keep asking until you get to the bottom of it. That's how you learn to use this. You no longer have to be a programmer to program.</p></li>
+  <li id="automator"><h3>Think like an automator.</h3>
+    <p>If you're ever doing data entry, ask "can I have Claude do this?" For anything you're doing, ask yourself: can Claude do this, or can we make a skill for it?</p></li>
+  <li id="artifacts"><h3>Use artifacts to understand what's going on.</h3>
+    <p>Ask for a page instead of reading a wall of text. "Publish an artifact comparing X and Y" gets you a page you can skim, keep and share.</p></li>
+  <li id="multimedia"><h3>Play with multimedia.</h3>
+    <p>Claude isn't just text. It reads PDFs and images, and can transcribe what's in them. It works with your files, and draws things: diagrams, SVGs, charts, whole pages. If it can't do something natively, like generating an image or transcribing audio, it can find or write the right tool for it. So feel free to play.</p></li>
+  <li id="voice"><h3>Make Claude write in your voice.</h3>
+    <p>I train my agent on my blog. You can do the same with a few things you've written:</p>
+    <pre class="paste">Here are a few things I wrote: [paste them, or give links]. Write a short voice guide from them: how I sound, what I never say, and two examples. In Claude Code, save it as ~/.claude/voice.md and add a line to ~/.claude/CLAUDE.md telling you to use it for anything written as me. In a chat, give it to me to save in my settings.</pre></li>
+  <li id="context"><h3>Context is everything.</h3>
+    <p>Every new problem gets a fresh workspace with only the context it needs. In Claude Code, that's one folder per project, with its own <code>CLAUDE.md</code>. Don't work out of one giant folder. In a chat, it's a new chat.</p>
+    <p>Be as verbose as you like with that context, just don't confuse it - if you're studying bananas, don't mention oranges.</p></li>
+  <li id="junior-dev"><h3>Treat Claude like a junior dev.</h3>
+    <p>Give it the exact plan, so it can't mess up. The more leniency you give it, the more it takes.</p></li>
+  <li id="reflection"><h3>Claude is a reflection of you and what you know.</h3>
+    <p>It will be sycophantic, so tell it what to do. You're still the driver.</p></li>
+  <li id="agents-argue"><h3>Have agents argue.</h3>
+    <p>Have them test things against each other: one builds, another attacks it. In a chat, ask a fresh chat to tear apart the first one's answer. <code>/arena</code> <span class="tag">kit</span> is the extreme version - a whole bracket of them.</p></li>
+  <li id="trust-verify"><h3>Trust and verify.</h3>
+    <p>Make Claude prove the output is correct, not just claim it. Ask it how it knows, and check the parts that matter.</p>
+    <p>For code, use test-driven development (<code>/tdd</code> <span class="tag">kit</span>) and have Claude run your tests. Audit with <code>/ponytail-audit</code> <span class="tag">kit</span>. Matt Pocock's closest is <code>/improve-codebase-architecture</code>.</p></li>
+  <li id="get-excited"><h3>Get excited about working out how to use Claude best.</h3>
+    <p>Treat it as a thought experiment. Being able to take on any problem is fun.</p></li>
+</ol>
+
+<h2 id="code-rules">Rules of thumb for Claude Code</h2>
+<p>Claude Code is Claude working on your own computer. These only apply there.</p>
+<ol class="rules" style="--start: 11">
+  <li id="auto-mode"><h3>Almost always run in auto mode.</h3>
+    <p>The faster you trust Claude, the faster you get your work done. Press <kbd>Shift+Tab</kbd> to cycle permission modes until it says auto, or start with <code>claude --permission-mode auto</code>.</p>
+    <p class="warn">Auto mode acts without asking each time. Keep it away from real work data or anything you can't undo, until you know how it behaves.</p></li>
+  <li id="opus"><h3>Use Opus 5.5.</h3>
+    <p>Low or medium effort for actual code implementation. High or xhigh for planning, wayfinding and grilling. <code>/model</code> and <code>/effort</code> change it mid-session.</p></li>
+  <li id="effort"><h3>Effort doesn't mean good or bad output.</h3>
+    <p>It only means how much Claude thinks and checks its own work. If you planned and ticketed well, code needs low or medium. When you're planning and don't quite know yet, higher effort is OK.</p></li>
+  <li id="make-a-skill"><h3>Anything you do more than once, make it a skill. <span class="tag">kit</span></h3>
+    <p>Have Claude write it, using Matt Pocock's <code>writing-for-agents</code> skill.</p></li>
+  <li id="short-claude-md"><h3>Keep your global <code>~/.claude/CLAUDE.md</code> short.</h3>
+    <p>It's context for every session you run.</p></li>
+  <li id="secrets"><h3>Don't let Claude read sensitive info directly.</h3>
+    <p>Have it write a script that reads the secret and puts it where it needs to go, so Claude never sees it.</p></li>
+  <li id="runbook"><h3>The ticket runbook does most of this for you. <span class="tag">kit</span></h3>
+    <p>Every ticket works test-first with <code>/tdd</code>, runs the full test suite and gets a ponytail review. Then a separate agent reviews it for bugs, spec and live data. Live data is n/a locally. The one thing it doesn't do is an audit. Run <code>/ponytail-audit</code> yourself every so often.</p></li>
+  <li id="watch-context"><h3>Watch your context. <span class="tag">kit</span></h3>
+    <p>The statusline's <code>ctx</code> is how much of the window this session is using. Keep it under about 30%. Past that, <code>/clear</code> or <code>/compact</code> to stay out of the dumb zone.</p></li>
+  <li id="budget"><h3>Budget with the statusline. <span class="tag">kit</span></h3>
+    <p><code>5h</code>, <code>7d</code> and <code>pace</code> tell you how much effort and how many parallel sessions you can throw at a problem. Don't be afraid to work in parallel - just make sure agents working in the same codebase know about each other.</p></li>
+  <li id="stay-awake"><h3>Leave <code>system-tui</code> open. <span class="tag">kit</span></h3>
+    <p>It doubles as caffeine. It keeps your Mac awake while it runs, so you can walk away and leave your agents working. No Rust, so no <code>system-tui</code>? Run <code>caffeinate -d</code> in a spare terminal tab instead.</p></li>
+  <li id="name-sessions"><h3>Name your sessions.</h3>
+    <p><code>/rename &lt;name&gt;</code>, or start with <code>claude -n &lt;name&gt;</code>, so you can tell which one is doing what. I name them after their folder or their problem.</p></li>
+  <li id="starting-flow"><h3>The starting flow for a small problem. <span class="tag">kit</span></h3>
+    <ol class="flow">
+      <li>A new workspace.</li>
+      <li><code>/setup-matt-pocock-skills</code></li>
+      <li><code>/grill-with-docs</code> with your plan.</li>
+      <li><code>/to-spec</code></li>
+      <li><code>/to-tickets</code></li>
+      <li>One subagent per ticket.</li>
+    </ol>
+    <p>Type the skills - Claude can't start them. The main chat never implements: subagents build every ticket, at medium effort (low for a tiny fix). Bigger? <code>/wayfinder</code> first.</p></li>
+  <li id="github"><h3>GitHub is your friend.</h3>
+    <p>Use it to store your work. Claude knows how to organize itself there.</p></li>
+  <li id="code-is-cheap"><h3>Code is cheap.</h3>
+    <p>Don't be afraid to refactor or rebuild something if it's not working. It's often faster to rebuild a system or a script than to fix an old one.</p></li>
+  <li id="dictate"><h3>Dictate with Wispr Flow.</h3>
+    <p>Download <a href="https://wisprflow.ai">Wispr Flow</a> and talk to Claude instead of typing. It makes your life so much easier.</p></li>
+</ol>
+
+<h2 id="kit">What's in the kit</h2>
+<div class="tbl"><table>
+  <tr><td><code>kit-living-doc</code></td><td>A progress page for a set of tickets, published as an artifact. It updates after every change, so one link shows how things are going</td></tr>
+  <tr><td><code>kit-ticket-runbook</code></td><td>The 13 steps every ticket runs, from research to close. The runbook is the steps, the living doc is the scoreboard</td></tr>
+  <tr><td><code>arena</code></td><td>Many agents fight over one task</td></tr>
+  <tr><td><code>mattpocock-skills</code></td><td>Engineering skills: planning, TDD, debugging, reviews</td></tr>
+  <tr><td><code>frontend-design</code></td><td>Anthropic's design skill, for pages that don't look templated</td></tr>
+  <tr><td><code>ponytail</code></td><td>Keeps Claude's code small. Always on. <code>/ponytail lite</code> or <code>ultra</code> changes the level</td></tr>
+  <tr><td><code>system-tui</code></td><td>A terminal dashboard for your Mac and your Claude usage</td></tr>
+  <tr><td>Statusline</td><td>The bottom line of Claude Code</td></tr>
+</table></div>
+
+<h3 id="skills">When to reach for each skill</h3>
+<p>Type a skill's name, like <code>/tdd</code>, or describe the task and Claude picks it up. <span class="tag">type it</span> means it only runs when you type it.</p>
+<div class="tbl"><table>
+  <tr><th>Plan</th><th>Reach for it when</th></tr>
+  <tr><td><code>setup-matt-pocock-skills</code> <span class="tag">type it</span></td><td>A new repo. Run it once, first</td></tr>
+  <tr><td><code>grill-with-docs</code> <span class="tag">type it</span></td><td>Sharpening a plan, with a glossary as you go</td></tr>
+  <tr><td><code>grilling</code></td><td>Stress-testing a plan before you commit</td></tr>
+  <tr><td><code>to-spec</code> <span class="tag">type it</span></td><td>The plan is settled and you want a spec</td></tr>
+  <tr><td><code>to-tickets</code> <span class="tag">type it</span></td><td>Breaking a plan into small tickets</td></tr>
+  <tr><td><code>wayfinder</code> <span class="tag">type it</span></td><td>It's too big for the starting flow</td></tr>
+  <tr><td><code>domain-modeling</code></td><td>Naming things, or recording a decision</td></tr>
+  <tr><td><code>research</code></td><td>You want an answer from primary sources</td></tr>
+  <tr><td><code>prototype</code></td><td>Throwaway code beats a debate</td></tr>
+  <tr><td><code>codebase-design</code></td><td>Designing a module, or finding where to split one</td></tr>
+  <tr><th>Build</th><th></th></tr>
+  <tr><td><code>kit-ticket-runbook</code></td><td>Working any ticket</td></tr>
+  <tr><td><code>kit-living-doc</code></td><td>Starting a set of tickets, or after any ticket changes</td></tr>
+  <tr><td><code>implement</code> <span class="tag">type it</span></td><td>Building from a written plan</td></tr>
+  <tr><td><code>tdd</code></td><td>Building or fixing test-first</td></tr>
+  <tr><td><code>diagnosing-bugs</code></td><td>Something's broken and the cause isn't obvious</td></tr>
+  <tr><td><code>wizard</code></td><td>A setup step only a human can do</td></tr>
+  <tr><td><code>frontend-design:frontend-design</code></td><td>Making a page look designed. Type the full name</td></tr>
+  <tr><td><code>writing-for-agents</code></td><td>Writing a skill, a <code>CLAUDE.md</code>, or anything an agent reads</td></tr>
+  <tr><th>Review</th><th></th></tr>
+  <tr><td><code>mattpocock-skills:code-review</code></td><td>Checking a branch against the spec. Type the full name</td></tr>
+  <tr><td><code>code-review</code></td><td>Built in. Bugs, not style</td></tr>
+  <tr><td><code>ponytail-review</code></td><td>Bugs and bloat, before a PR</td></tr>
+  <tr><td><code>ponytail-audit</code></td><td>Auditing a whole repo for bugs, risk and dead weight</td></tr>
+  <tr><td><code>pr</code></td><td>Writing a PR description</td></tr>
+  <tr><td><code>arena</code></td><td>You hate an answer</td></tr>
+</table></div>
+
+<h3 id="statusline">Reading the statusline</h3>
+<pre>Opus·medium <span class="dim">│</span> ctx 24% 48k <span class="dim">│</span> 5h 18% ⟳1h30m <span class="dim">│</span> 7d 30% ⟳4d <span class="dim">│</span> pace +13%</pre>
+<ul>
+  <li><code>Opus·medium</code> is the model and effort.</li>
+  <li><code>ctx</code> is how full this session's context window is. Keep it under about 30%. It only turns yellow at 60%, so don't wait for the color.</li>
+  <li><code>5h</code> is how much of your 5-hour usage window you've used, and when it resets (<code>⟳</code>). <code>7d</code> is the same, for the weekly window.</li>
+  <li><code>pace</code> compares your 7-day usage with an even burn. <code>+</code> means you're under it, with room to spend. <code>-</code> means you're over it, so slow down.</li>
+</ul>
+
+<h3 id="system-tui"><code>system-tui</code></h3>
+<p>A dashboard for your Mac and your Claude sessions: CPU, memory, disk use by project, network per process, your open sessions and your plan usage. Run <code>system-tui</code> in a spare terminal tab. <kbd>q</kbd> quits.</p>
+<ul>
+  <li><strong>Leave it open.</strong> It keeps your Mac awake while it runs, so you can walk away and leave your agents working.</li>
+  <li>The disk panel scans your code folder. The first scan takes a couple of minutes.</li>
+  <li>Plan usage fills once a Claude Code session is open - the statusline feeds it.</li>
+  <li>Other folder? <code>bash install.sh --code-dir &lt;folder&gt;</code></li>
+  <li>Not found? Open a new terminal, so it picks up <code>~/.cargo/bin</code>.</li>
+</ul>
+
+<h3 id="arena">Arena: make them fight</h3>
+<p>Hate an answer? <code>/arena</code> hands the exact same task to a crowd of sub-agents, each with a different strategy. They pair off, attack each other's solution, defend and revise, and a judge scores every match. Losers are out, until one solution is left. By <a href="https://github.com/Jakeschincariol/arena-skill">Jake Schincariol</a>, MIT.</p>
+<pre class="paste">/arena --quick &lt;task&gt;</pre>
+<p><code>--quick</code> starts 16 agents, about 91 sub-agent calls. The default 100 agents is about 595. <code>python3 ~/.claude/skills/arena/bracket.py plan --agents 16</code> prints the real numbers. Run it in accept-edits or auto mode (<kbd>Shift+Tab</kbd>), or you'll approve every file it writes.</p>
+<p><strong>It's wasteful. It's also very fun.</strong> Arena burns usage fast. Check <code>5h</code> before and after your first <code>--quick</code> to see what it costs on your plan, and save the full 100 for the answer that matters.</p>
+<p>To watch it live, pair it with a living doc and open the link:</p>
+<pre class="paste">Run /arena --quick on &lt;task&gt; and keep a living doc of the bracket - one ticket per match, synced after every round.</pre>
+
+<h2 id="safe">Is this safe, and how do I undo it?</h2>
+<p>You're running other people's code, so here's whose it is and what it does.</p>
+<div class="tbl"><table>
+  <tr><th>Piece</th><th>Whose</th><th>Runs by itself?</th></tr>
+  <tr><td><code>kit-living-doc</code>, <code>kit-ticket-runbook</code></td><td>Mine, in this repo</td><td>No, only when used</td></tr>
+  <tr><td>Statusline, <code>system-tui</code></td><td>Mine, on my other GitHub account, <a href="https://github.com/constdecimals9/system-tui">constdecimals9</a></td><td>The statusline runs every 10 seconds in Claude Code. <code>system-tui</code> only runs while you have it open</td></tr>
+  <tr><td><code>arena</code></td><td><a href="https://github.com/Jakeschincariol/arena-skill">Jake Schincariol</a></td><td>No, only when you type it</td></tr>
+  <tr><td><code>mattpocock-skills</code></td><td><a href="https://github.com/mattpocock/skills">Matt Pocock</a>, from Anthropic's plugin marketplace</td><td>Claude can pick its skills up when they fit</td></tr>
+  <tr><td><code>frontend-design</code></td><td><a href="https://github.com/anthropics/claude-plugins-official">Anthropic</a>, from the same marketplace</td><td>Claude can pick it up when it fits</td></tr>
+  <tr><td><code>ponytail</code></td><td><a href="https://github.com/DietrichGebert/ponytail">Dietrich Gebert</a></td><td>Yes. Its hooks run in every project, on every session and prompt, and add instructions. It logs a cost line per turn to <code>~/.config/ponytail/band/</code>, on your Mac</td></tr>
+</table></div>
+<ul>
+  <li><strong>What changes:</strong> <code>~/.claude</code>, plus one PATH line in your shell file if <code>system-tui</code> needs it.</li>
+  <li><strong>Backups:</strong> anything replaced goes to <code>~/.claude/backups/</code> first. It keeps skills and a statusline you already have, unless you ask.</li>
+  <li><strong>Not pinned:</strong> everything tracks its latest version, so a rerun gets whatever its author has published since. Read it first if that matters to you.</li>
+  <li><strong>Leave things out:</strong> <code>bash install.sh --skip arena,ponytail</code></li>
+  <li><strong>Undo it:</strong> <code>bash ~/src/ai-welcome-kit/uninstall.sh</code> removes what the kit added and keeps what you had.</li>
+</ul>
+
+<h2 id="words">Words you'll see</h2>
+<dl class="words">
+  <dt>Claude Code</dt><dd>Claude working on your own computer, from the terminal or the desktop app's Code tab. It can read and change files and run commands.</dd>
+  <dt>Claude chat</dt><dd>Claude on claude.ai or in the desktop app's chat. It can't touch your computer.</dd>
+  <dt>Skill</dt><dd>A saved set of instructions Claude follows for one kind of job.</dd>
+  <dt>Plugin</dt><dd>A bundle of skills and settings you install in one go.</dd>
+  <dt><code>CLAUDE.md</code></dt><dd>A notes file Claude reads at the start of every session. The one in <code>~/.claude</code> applies everywhere, and one in a project folder applies there.</dd>
+  <dt>Context</dt><dd>Everything Claude is holding in mind in this session. It fills up, and answers get worse as it does.</dd>
+  <dt>Effort</dt><dd>How long Claude thinks before it answers.</dd>
+  <dt>Artifact</dt><dd>A page Claude publishes that you can open in a browser, keep and share.</dd>
+  <dt>Subagent</dt><dd>A second Claude that the first one starts to do one job.</dd>
+  <dt>Ticket</dt><dd>One small piece of work, written down in a file.</dd>
+  <dt>Living doc</dt><dd>A progress page for a set of tickets.</dd>
+  <dt>Statusline</dt><dd>The line at the bottom of Claude Code. The kit's shows your usage.</dd>
+</dl>
+
+<h2 id="refs">References</h2>
+<ul>
+  <li><a href="https://constdecimalserrno.dev/posts/3kc/">3 Key Claude</a> - how a gag gift of three keys became my whole AI workflow. Read this one first.</li>
+  <li><a href="https://constdecimalserrno.dev/posts/tools-i-use/">Tools I Use</a> - the tools and plugins I use every day.</li>
+  <li><a href="https://constdecimalserrno.dev/">constdecimalserrno.dev</a> - everything else I write.</li>
+  <li><a href="https://www.youtube.com/@mattpocockuk">Matt Pocock on YouTube</a> - watch the skills used for real.</li>
+  <li><a href="https://www.aihero.dev">AI Hero</a> - a guide per skill, and a newsletter.</li>
+  <li><a href="https://github.com/mattpocock/skills">mattpocock/skills</a> - each skill's full text.</li>
+  <li><a href="https://github.com/anthropics/claude-plugins-official">anthropics/claude-plugins-official</a> - Anthropic's plugin marketplace. Browse it for more.</li>
+  <li><a href="https://github.com/DietrichGebert/ponytail">DietrichGebert/ponytail</a> - <code>ponytail</code>'s levels and commands.</li>
+  <li><a href="https://github.com/Jakeschincariol/arena-skill">Jakeschincariol/arena-skill</a> - <code>arena</code>'s flags, and what each run costs.</li>
+  <li><a href="https://github.com/constdecimals9/system-tui">constdecimals9/system-tui</a> - <code>system-tui</code> and the statusline.</li>
+  <li><a href="https://github.com/constdecimalserrno/ai-welcome-kit">constdecimalserrno/ai-welcome-kit</a> - this kit.</li>
+  <li><a href="https://code.claude.com/docs/en/overview">Claude Code docs</a> - settings, slash commands, plugins and the rest.</li>
+</ul>
+</main>
+</body>
+</html>
