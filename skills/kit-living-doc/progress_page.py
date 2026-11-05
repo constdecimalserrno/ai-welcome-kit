@@ -52,7 +52,8 @@ for p in sorted((effort / "issues").glob("*.md"), key=lambda p: int(p.name.split
     steps = re.findall(r"^- \[( |x|-)\] (.+)$", section(t, "Rollout") or t, re.M)
     brief = re.findall(r"^- \*\*(\w+):\*\*\s*(.+)$", section(t, "Brief"), re.M)
     if not brief and (wtb := field(t, "What to build") or section(t, "What to build")):
-        brief = [("Goal", wtb.splitlines()[0])]
+        goal = wtb.splitlines()[0]
+        brief = [("Goal", goal[:1].upper() + goal[1:])]
     tickets[num] = dict(
         num=num, title=re.sub(r"^\d+:\s*", "", t.splitlines()[0].lstrip("# ").strip()),
         status=STATUS.get(field(t, "Status"), field(t, "Status")) or "needs-triage", size=field(t, "Size"),
@@ -238,14 +239,14 @@ def ticket_panel(t):
     </div>
     <aside class="col">
       <div class="stats">
-        <div><span class="lbl">Estimate</span><b>{t["est"]:g} d</b><small>{t["est"]*PAD_LO:g} to {t["est"]*PAD_HI:g} d padded</small></div>
-        <div><span class="lbl">Window</span><b>{when}</b><small>{"" if not t["due"] else "padded 2x, in rollout order"}</small></div>
+        {f"""<div><span class="lbl">Estimate</span><b>{t["est"]:g} d</b><small>{t["est"]*PAD_LO:g} to {t["est"]*PAD_HI:g} d padded</small></div>
+        <div><span class="lbl">Window</span><b>{when}</b><small>{"" if not t["due"] else "padded 2x, in rollout order"}</small></div>""" if HAS_ETA else ""}
         {where}
         {review_chip(t)}
       </div>
       {human}{excl}
-      <div class="orig"><h3 class="lbl">Original ticket</h3><h4>{e(t["title"])}</h4>
-        <div class="orig-body" tabindex="0" aria-label="Original ticket text">{e(t["original"]) or "<em>No text was pasted.</em>"}</div></div>
+      {f"""<div class="orig"><h3 class="lbl">Original ticket</h3><h4>{e(t["title"])}</h4>
+        <div class="orig-body" tabindex="0" aria-label="Original ticket text">{e(t["original"])}</div></div>""" if t["original"] else ""}
     </aside>
   </div>
 </section>'''
@@ -459,8 +460,8 @@ footer {{ color:var(--muted); font-size:13px }}
     <dl>
       <div><dt class="lbl">Tickets done</dt><dd>{done_n} / {len(tickets)}</dd></div>
       <div><dt class="lbl">Work done</dt><dd>{pct}%</dd></div>
-      <div><dt class="lbl">Base estimate</dt><dd>{base_total:g} d</dd></div>
-      <div><dt class="lbl">Left, padded</dt><dd>{base_left*PAD_LO:.1f} to {base_left*PAD_HI:.1f} d</dd></div>
+      {f"""<div><dt class="lbl">Base estimate</dt><dd>{base_total:g} d</dd></div>
+      <div><dt class="lbl">Left, padded</dt><dd>{base_left*PAD_LO:.1f} to {base_left*PAD_HI:.1f} d</dd></div>""" if HAS_ETA else ""}
       {bar(1 - base_left / base_total if base_total else 0)}
     </dl>
   </section>
@@ -473,7 +474,7 @@ footer {{ color:var(--muted); font-size:13px }}
   {overview}
   {done_panel}
   {"".join(ticket_panel(t) for t in order)}
-  <footer>Working days only, skipping weekends and US holidays. Estimates exclude the items each ticket lists as not in the estimate. Rendered from the ticket files on {today.isoformat()}.</footer>
+  <footer>{"Working days only, skipping weekends and US holidays. " if HAS_ETA else ""}Estimates exclude the items each ticket lists as not in the estimate. Rendered from the ticket files on {today.isoformat()}.</footer>
 </div>
 <script>
 (function () {{
