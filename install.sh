@@ -3,7 +3,7 @@
 # Safe to run twice - every step checks what's already there, and anything it
 # replaces gets backed up to ~/.claude/backups/ai-welcome-kit-<timestamp>/ first.
 #
-# Mac only. To undo it: bash uninstall.sh
+# Mac, or Windows in Git Bash, where system-tui and the statusline are left out. To undo it: bash uninstall.sh
 #
 # Usage: bash install.sh [--code-dir DIR] [--skip LIST] [--force-skills] [--force-statusline]
 #   --skip LIST      leave pieces out, comma separated: kit-living-doc, kit-ticket-runbook,
@@ -84,17 +84,27 @@ export PATH="$CARGO_BIN:$PATH"  # rustup puts cargo here; a fresh shell may not 
 
 # ----------------------- 1. PREREQUISITES -----------------------
 say "1/6 prerequisites"
-[ "$(uname -s)" = Darwin ] || {
-  echo "    x this installer is Mac only. The guide works anywhere: https://constdecimalserrno.github.io/ai-welcome-kit/guide.html"; exit 1; }
+if [ "$(uname -s)" = Darwin ]; then FIX="run: xcode-select --install"
+else
+  FIX="get it from https://git-scm.com or https://www.python.org"
+  SKIP="$SKIP,statusline,system-tui"
+  warn "not a Mac - leaving out the statusline and system-tui, which are Mac only"
+fi
+# Windows often has python or py, not python3
+if ! python3 -c 1 >/dev/null 2>&1; then
+  for p in python py; do
+    if "$p" -c 1 >/dev/null 2>&1; then eval "python3() { $p \"\$@\"; }"; break; fi
+  done
+fi
 missing=0
 # Run each tool, don't just find it: on a Mac without the Command Line Tools,
 # /usr/bin/python3 and /usr/bin/git exist but only pop an install dialog.
 command -v claude >/dev/null 2>&1 || {
   echo "    x claude not found - install Claude Code: https://claude.com/claude-code"; missing=1; }
 python3 -c 1 >/dev/null 2>&1 || {
-  echo "    x python3 doesn't run - run: xcode-select --install"; missing=1; }
+  echo "    x python doesn't run - $FIX"; missing=1; }
 git --version >/dev/null 2>&1 || {
-  echo "    x git doesn't run - run: xcode-select --install"; missing=1; }
+  echo "    x git doesn't run - $FIX"; missing=1; }
 [ "$missing" = 0 ] || { echo "Install what's missing above, then run this again."; exit 1; }
 
 # ponytail's hooks all run node. Without it they error on every prompt, so we don't install it.
@@ -137,7 +147,7 @@ ARENA_CLONE="$CLAUDE_DIR/ai-welcome-kit/arena-skill"
 ARENA_SKILL="$ARENA_CLONE/skills/arena"
 dest="$CLAUDE_DIR/skills/arena"
 if skip arena; then echo "    arena skipped"
-elif [ -e "$dest" ] && [ "$(readlink "$dest")" != "$ARENA_SKILL" ] && [ "$FORCE_SKILLS" != 1 ]; then
+elif [ -e "$dest" ] && [ "$(readlink "$dest")" != "$ARENA_SKILL" ] && [ ! -f "$dest/.kit-copy" ] && [ "$FORCE_SKILLS" != 1 ]; then
   if [ -e "$dest/.git" ]; then why="it's a git repo"; else why="it isn't the kit's clone"; fi
   echo "    [--] existing arena kept ($why). rerun with --force-skills to replace it, after a backup"
 else
@@ -154,10 +164,14 @@ else
   elif [ "$(readlink "$dest")" = "$ARENA_SKILL" ]; then
     if [ "$old" = "$(git -C "$ARENA_CLONE" rev-parse HEAD)" ]; then echo "    arena already installed"
     else echo "    updated arena"; fi
+  elif [ -f "$dest/.kit-copy" ]; then  # a copy can't follow the clone, so refresh it
+    rm -rf "$dest"; cp -R "$ARENA_SKILL" "$dest"; touch "$dest/.kit-copy"
+    echo "    arena already installed"
   else
     if [ -e "$dest" ]; then backup "$dest"; fi
     rm -rf "$dest"  # also clears a dangling link
-    ln -s "$ARENA_SKILL" "$dest"
+    ln -s "$ARENA_SKILL" "$dest" 2>/dev/null || cp -R "$ARENA_SKILL" "$dest"
+    [ -L "$dest" ] || touch "$dest/.kit-copy"  # Git Bash copies instead of linking
     echo "    installed arena ($ARENA_REPO)"
   fi
 fi
@@ -390,7 +404,7 @@ check_skill() {  # check_skill <name> <is it the kit's?>
 }
 check_skill kit-living-doc     "diff -rq -x __pycache__ '$KIT/skills/kit-living-doc' '$CLAUDE_DIR/skills/kit-living-doc'"
 check_skill kit-ticket-runbook "diff -rq -x __pycache__ '$KIT/skills/kit-ticket-runbook' '$CLAUDE_DIR/skills/kit-ticket-runbook'"
-check_skill arena              "[ \"\$(readlink '$CLAUDE_DIR/skills/arena')\" = '$ARENA_SKILL' ] && [ -f '$ARENA_SKILL/SKILL.md' ]"
+check_skill arena              "{ [ \"\$(readlink '$CLAUDE_DIR/skills/arena')\" = '$ARENA_SKILL' ] || [ -f '$CLAUDE_DIR/skills/arena/.kit-copy' ]; } && [ -f '$ARENA_SKILL/SKILL.md' ]"
 if skip mattpocock-skills; then dash "plugin mattpocock-skills skipped"
 else check "plugin mattpocock-skills" "has enabled mattpocock-skills@claude-plugins-official"; fi
 if skip frontend-design; then dash "plugin frontend-design skipped"

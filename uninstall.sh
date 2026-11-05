@@ -22,8 +22,8 @@ for name in kit-living-doc kit-ticket-runbook; do
   if diff -rq -x __pycache__ "$KIT/skills/$name" "$dest" >/dev/null 2>&1; then rm -rf "$dest"; echo "removed $name"
   else echo "kept $name: it differs from the kit's copy"; fi
 done
-if [ "$(readlink "$CLAUDE_DIR/skills/arena" 2>/dev/null)" = "$ARENA_SKILL" ]; then
-  rm "$CLAUDE_DIR/skills/arena"; echo "removed arena"
+if [ "$(readlink "$CLAUDE_DIR/skills/arena" 2>/dev/null)" = "$ARENA_SKILL" ] || [ -f "$CLAUDE_DIR/skills/arena/.kit-copy" ]; then
+  rm -rf "$CLAUDE_DIR/skills/arena"; echo "removed arena"
 fi
 
 # Only what install.sh added: a plugin you already had isn't in this list
@@ -37,6 +37,12 @@ if [ -f "$STATE/added" ]; then
   done
 fi
 
+# Windows often has python or py, not python3
+if ! python3 -c 1 >/dev/null 2>&1; then
+  for p in python py; do
+    if "$p" -c 1 >/dev/null 2>&1; then eval "python3() { $p \"\$@\"; }"; break; fi
+  done
+fi
 python3 - "$CLAUDE_DIR/settings.json" "$SL" <<'PY'
 import json, os, sys
 path, cmd = os.path.realpath(sys.argv[1]), sys.argv[2]
