@@ -10,7 +10,7 @@
 #                    arena, mattpocock-skills, frontend-design, ponytail, statusline,
 #                    system-tui.
 #   --force-skills   replace a skill you already have under ~/.claude/skills, after a
-#                    backup. Without it, a skill that's a git repo or differs from ours is kept.
+#                    backup. Without it, a skill that's a git repo or that you changed is kept.
 #   --force-statusline  replace a statusLine you already have, after a backup. Without it, yours stays.
 #   --code-dir DIR   where you keep your code, for system-tui's disk-by-project panel.
 #                    Relative to $HOME or absolute under it. Also read from $CODE_DIR.
@@ -124,20 +124,28 @@ fi
 # ----------------------- 2. SKILLS -----------------------
 say "2/6 skills -> $CLAUDE_DIR/skills"
 mkdir -p "$CLAUDE_DIR/skills"
+record_skill() {
+  rm -rf "$CLAUDE_DIR/ai-welcome-kit/skills/$1"
+  mkdir -p "$CLAUDE_DIR/ai-welcome-kit/skills"
+  cp -R "$KIT/skills/$1" "$CLAUDE_DIR/ai-welcome-kit/skills/$1"
+}
 for name in kit-living-doc kit-ticket-runbook; do
   dest="$CLAUDE_DIR/skills/$name"
+  # What we last installed, so a rerun can tell an old kit copy from someone's own edits
+  base="$CLAUDE_DIR/ai-welcome-kit/skills/$name"
   if skip "$name"; then echo "    $name skipped"; continue; fi
   if [ -d "$dest" ] && diff -rq -x __pycache__ "$KIT/skills/$name" "$dest" >/dev/null 2>&1; then
-    echo "    $name already installed"; continue
+    echo "    $name already installed"; record_skill "$name"; continue
   fi
   # Someone else's skill by the same name could be their own work - we never replace it silently
-  if [ -e "$dest" ] && [ "$FORCE_SKILLS" != 1 ]; then
+  if [ -e "$dest" ] && [ "$FORCE_SKILLS" != 1 ] && ! { [ -d "$base" ] && diff -rq -x __pycache__ "$base" "$dest" >/dev/null 2>&1; }; then
     if [ -e "$dest/.git" ]; then why="it's a git repo"; else why="it differs from the kit's copy"; fi
     echo "    [--] existing $name kept ($why). rerun with --force-skills to replace it, after a backup"
     continue
   fi
   if [ -e "$dest" ]; then backup "$dest"; rm -rf "$dest"; fi
   cp -R "$KIT/skills/$name" "$dest"
+  record_skill "$name"
   echo "    installed $name"
 done
 
