@@ -19,7 +19,7 @@ fi
 for name in kit-living-doc kit-ticket-runbook; do
   dest="$CLAUDE_DIR/skills/$name"
   [ -e "$dest" ] || continue
-  if diff -rq -x __pycache__ "$KIT/skills/$name" "$dest" >/dev/null 2>&1; then rm -rf "$dest"; echo "removed $name"
+  if diff -rq -x __pycache__ "$KIT/skills/$name" "$dest" >/dev/null 2>&1 || diff -rq -x __pycache__ "$STATE/skills/$name" "$dest" >/dev/null 2>&1; then rm -rf "$dest"; echo "removed $name"
   else echo "kept $name: it differs from the kit's copy"; fi
 done
 if [ "$(readlink "$CLAUDE_DIR/skills/arena" 2>/dev/null)" = "$ARENA_SKILL" ] || [ -f "$CLAUDE_DIR/skills/arena/.kit-copy" ]; then
